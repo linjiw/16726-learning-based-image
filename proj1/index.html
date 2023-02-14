@@ -153,13 +153,13 @@
           <p class="w3-justify">
             where <i>I</i> and  <i>H</i> are function of two images and x,y are pixels positions.
           </p>
-          <img src="./data/cathedral.jpg_CannyFalse_PyramidFalse_searchTrue_SSD.jpg" style="width: 40%;">
-          <p span="caption">Figure 2. Cathedral: SSD, time cost: 7.86s</p>
+          <img src=".\data\11_13PM_February_14_2023\cathedral.jpg_square_limit25_CROPFalse_CannyTrue_PyramidFalse_CMEASFalse_methodSSD_shift[[0, -25],[7, -25]]_time_cost 2.1364333629608154.jpg" style="width: 40%;">
+          <p span="caption">Figure 2. Cathedral: SSD, Shift:[0, -25],[7, -25] time cost: 2.13s</p>
           <p class="w3-justify"><b>Normalized Cross Correlation</b> NNC is calculated     based on the following equation:     </p>
           <img src="./data/ncc.png" style="width: 40%" />
           <p class="w3-justify"> where <la-tex>\mu I</la-tex> and<la-tex>\mu H</la-tex> are the luminance of each image.</p>
-          <img src="./data/cathedral.jpg_CannyFalse_PyramidFalse_searchTrue_NCC.jpg" style="width: 40%;">
-          <p span="caption">Figure 3. Cathedral: NCC, time cost: 27.59s</p>
+          <img src=".\data\11_13PM_February_14_2023\cathedral.jpg_square_limit25_CROPFalse_CannyTrue_PyramidFalse_CMEASFalse_methodNCC_shift[[0, -25],[7, -25]]_time_cost 9.591359376907349.jpg" style="width: 40%;">
+          <p span="caption">Figure 3. Cathedral: NCC, Shift:[0, -25],[7, -25] time cost: 9.59s</p>
           <h3> Efficiency</h3>
           <p class="w3-justify">In the above implementation, we construct two for loops to search for the best position in a small window. Comparing and searching image in a small image might work; however, it will take minutes to process a 3500 by 3500 image.
             We need additional algorithms to pursue efficiency: 
@@ -189,8 +189,29 @@
         <img src="./data/train.tifsquare_limit1_CROPFalse_CannyFalse_PyramidTrue_searchFalse_methodNCC.jpg" style="width: 40%" >
         <p span="caption">Figure 7. Train: NCC with Pyramid, time cost: 39.41s</p>
         <p class="w3-justify">Wow, I believe that is a huge performance increase. But the image quality seems not good enough. We will introduce a few of methods in the following part.</p>
+        <p class="w3-justify">The following are the results with the Pyramid method.</p>
 
-
+        <h3> Pyramid Results</h3>
+        <img src=".\data\04_11PM_February_14_2023\cathedral.jpg_square_limit25_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[0, -16],[6, -16]]_time_cost 0.7590944766998291.jpg" style="width:  40%;">
+        <p span="caption">Figure 8. cathedral: Shift: [0, -16],[6, -16], time cost: 0.75s</p>
+        <img src=".\data\04_11PM_February_14_2023\emir.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[-9, -78],[64, -35]]_time_cost 55.55182671546936.jpg" style="width:  40%;">
+        <p span="caption">Figure 9. emir: Shift: [-9, -78],[64, -35], time cost: 55.55s</p>
+        <img src=".\data\04_11PM_February_14_2023\harvesters.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[64, -80],[64, -65]]_time_cost 56.50710463523865.jpg" style="width:  40%;">
+        <p span="caption">Figure 10. harvesters: Shift: [64, -80],[64, -65], time cost: 56.50s</p>
+        <img src=".\data\04_11PM_February_14_2023\icon.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[64, -80],[64, -80]]_time_cost 57.38401412963867.jpg" style="width:  40%;">
+        <p span="caption">Figure 11. icon: Shift: [64, -80],[64, -80], time cost: 57.38s</p>
+        <img src=".\data\04_11PM_February_14_2023\lady.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[64, -80],[64, -80]]_time_cost 57.11059498786926.jpg" style="width:  40%;">
+        <p span="caption">Figure 12. lady: Shift: [64, -80],[64, -80], time cost: 57.11s</p>
+        <img src=".\data\04_11PM_February_14_2023\self_portrait.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[42, -80],[64, -80]]_time_cost 58.938451290130615.jpg" style="width:  40%;">
+        <p span="caption">Figure 13. self_portrait: Shift: [42, -80],[64, -80], time cost: 58.93s</p>
+        <img src=".\data\04_11PM_February_14_2023\three_generations.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[52, -80],[64, -80]]_time_cost 56.76436400413513.jpg" style="width:  40%;">
+        <p span="caption">Figure 14. three_generations: Shift: [52, -80],[64, -80], time cost: 56.76s</p>
+        <img src=".\data\04_11PM_February_14_2023\train.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[0, -65],[64, -70]]_time_cost 56.692832708358765.jpg" style="width:  40%;">
+        <p span="caption">Figure 15. train: Shift: [0, -65],[64, -70], time cost: 56.69s</p>
+        <img src=".\data\04_11PM_February_14_2023\turkmen.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[64, -77],[64, -60]]_time_cost 64.7242820262909.jpg" style="width:  40%;">
+        <p span="caption">Figure 16. turkmen: Shift: [64, -77],[64, -60], time cost: 64.72s</p>
+        <img src=".\data\04_11PM_February_14_2023\village.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[17, -80],[64, -80]]_time_cost 61.3076376914978.jpg" style="width:  40%;">
+        <p span="caption">Figure 17. village: Shift: [17, -80],[64, -80], time cost: 61.30</p>
 
       <h3> Bells & Whistles</h3>
       <P class="w3-justify">
@@ -205,20 +226,20 @@
         <!-- <br> -->
         <p class="w3-justify">Let's see some images after we implementing the auto border crop.</p>
         <img src="./data/train.tifsquare_limit1_CROPTrue_CannyFalse_PyramidTrue_searchFalse_methodSSD.jpg" style="width: 40%;">
-        <p span="caption">Figure 8. Train: SSD with Pyramid, CROP, time cost: 34.05s</p>
+        <p span="caption">Figure 18. Train: SSD with Pyramid, CROP, time cost: 34.05s</p>
 
         <img src="./data/train.tifsquare_limit1_CROPTrue_CannyFalse_PyramidTrue_searchFalse_methodNCC.jpg" style="width: 40%;">
-        <p span="caption">Figure 9. Train: NCC with Pyramid, CROP, time cost: 44.67s</p>
+        <p span="caption">Figure 19. Train: NCC with Pyramid, CROP, time cost: 44.67s</p>
 
         <p class="w3-justify">The border got cropped before and after the image matching to ensure a clean image. However, the channels are still not matched very well.</p>
         <p class="w3-justify"> <b >Edge Detector</b></p> 
         <p class="w3-justify">Maybe pixel intensity is not enough for the matching, other features like edges are also important. This time, we use Canny edges for SSD and NCC for image matching.</p>
         <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchFalse_methodSSD.jpg" style="width: 40%;">
 
-        <p span="caption">Figure 10. Train: SSD with Pyramid, CROP, Canny, time cost: 18.30s</p>
+        <p span="caption">Figure 20. Train: SSD with Pyramid, CROP, Canny, time cost: 18.30s</p>
         <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchFalse_methodNCC.jpg" style="width: 40%;">
 
-        <p span="caption">Figure 11. Train: NCC with Pyramid, CROP, Canny, time cost: 43.35s</p>
+        <p span="caption">Figure 21. Train: NCC with Pyramid, CROP, Canny, time cost: 43.35s</p>
 
         <br>
       </P>
@@ -232,37 +253,41 @@
       <img src="./data/evolutionsearch.png" style="width: 40%;">
       <p class="w3-justify">Let's see this cool GIF to have an idea how the evolution method find the optimal values.</p>
       <img src="./data/CMEASanime.gif" style="width: 40%;">
-      <p span="caption">Figure 12. CMEAS parameter update process</p>
+      <p span="caption">Figure 22. CMEAS parameter update process</p>
 
       <img src="./data/IMGMOVEanime.gif" style="width: 40%;">
       <!-- <img src="./data/IMGMOVEanime.gif" style="width: 40%;"> -->
-      <p span="caption">Figure 13. CMEAS image update process</p>
+      <p span="caption">Figure 23. CMEAS image update process</p>
 
       
       <br>
       <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodSSD.jpg" style="width:  40%;">
-      <p span="caption">Figure 14. Train: SSD with Pyramid, Canny, CMEAS, CROP, time cost: 12.89s</p>
+      <p span="caption">Figure 24. Train: SSD with Pyramid, Canny, CMEAS, CROP, time cost: 12.89s</p>
       <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 15. Train: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 25.77s</p>
+      <p span="caption">Figure 25. Train: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 25.77s</p>
 
       <p class="w3-justify">The CMEAS Evolution method brings 35% performance increase with more clear results.</p>
       <h3> Final Results</h3>
+      <img src="./data/cathedral.jpg_square_limit10_CROPTrue_CannyTrue_PyramidTrue_CMEASTrue_methodNCC_shift[[5, 2],[12, 1]]_time_cost 1.9317255020141602.jpg" style="width:  40%;">
+      <p span="caption">Figure 26. cathedral: shift[[5, 2],[12, 1]]_time_cost 1.93s</p>
       <img src="./data/emir.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 16. emir: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 19.83s</p>
+      <p span="caption">Figure 27. emir: shift[[38, 16],[91, 18]]_time_cost 31.65s</p>
       <img src="./data/harvesters.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 17. harvesters: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 24.30s</p>
+      <p span="caption">Figure 28. harvesters: shift[[61, 13],[123, 13]]_time_cost 40.10s</p>
       <img src="./data/icon.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 18. icon: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 20.77s</p>
+      <p span="caption">Figure 29. icon: shift[[30, 16],[76, 22]]_time_cost 33.83s</p>
       <img src="./data/lady.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 19. lady: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 18.31s</p>
+      <p span="caption">Figure 30. lady: shift[[52, 7],[120, 4]]_time_cost 31.90s</p>
       <img src="./data/self_portrait.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 20. self_portrait: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 18.23s</p>
+      <p span="caption">Figure 31. self_portrait: shift[[74, 25],[167, 19]]_time_cost 32.29s</p>
       <img src="./data/three_generations.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 21. three_generations: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 22.26s</p>
+      <p span="caption">Figure 32. three_generations: shift[[44, 6],[106, 6]]_time_cost 38.12s</p>
       <img src="./data/turkmen.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 22. turkmen: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 20.56s</p>
+      <p span="caption">Figure 33. turkmen: shift[[56, 20],[105, 21]]_time_cost 34.34s</p>
       <img src="./data/village.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 23. village: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 23.07s</p>
+      <p span="caption">Figure 34. village: shift[[63, 3],[136, 20]]_time_cost 38.50s</p>
+      <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 35. train: shift[[41, 0],[78, 23]]_time_cost 46.49s</p>
 
       <!-- <div class="w3-row w3-padding-32"> -->
       <!-- <div class="w3-third">
