@@ -107,22 +107,42 @@ def poisson_blend(fg, mask, bg):
     :return: (H, W, C)
     """
     # use mask a a reference tool, 1: mask area, 0: outside
-    imh, imw = fg.shape
-    im2var = np.arange(imh * imw).reshape((imh, imw)).astype(int) 
+    imh, imw, cn = fg.shape
+    all_v = np.zeros((imh, imw, cn))
+    for channel in range(3):
+        im2var = np.arange(imh * imw).reshape((imh, imw)).astype(int) 
 
-    total_len = imh * imw
-    A = np.zeros((total_len * 4, total_len ))
-    b = np.zeros((total_len * 4 ))
+        total_len = imh * imw
+        A = np.zeros((total_len * 4, total_len ))
+        b = np.zeros(total_len * 4 )
 
-    e = 0
-    for y in range(imh - 1):
-        for x in range(imw - 1):
+        e = 0
+        
+        for y in range(imh - 1):
+            for x in range(imw - 1):
+                
+                for ii in get_surrounding([y,x]):
+                    if mask[ii[0], ii[1], 0]:
+                    # print(f"e {e}")
+                        A[e, im2var[ii[0], ii[1]]] = -1
+                        A[e, im2var[y, x]] = 1
+                        # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
+                        b[e] = fg[y, x, channel] - fg[ii[0], ii[1], channel]
+                    else:
+                        A[e, im2var[y, x]] = 1
+                        b[e] = bg[ii[0], ii[1], channel]
+                        
+                    e +=1
+    
+        print(f"A.shape {A.shape}\nb.shape {b.shape}\n")
+    
+        A = csc_matrix(A)
 
-            
-            A[e, im2var[y, x + 1]] = 1
-            A[e, im2var[y, x]] = -1
-            b[e] = image[y, x + 1] - image[y, x]
-            e +=1
+        v = lsqr(A, b, show=False)[0]
+        v = v.reshape((imh, imw))
+        print(f"v.shape {v.shape}")
+        all_v[:, :, channel] = v
+    bg[np.where(mask == 255)] = all_v[np.where(mask == 255)]
 
 
 
@@ -130,8 +150,7 @@ def poisson_blend(fg, mask, bg):
 
 
 
-
-
+    return bg
     return fg * mask + bg * (1 - mask)
 
 
