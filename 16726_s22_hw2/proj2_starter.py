@@ -9,10 +9,93 @@ import numpy as np
 import cv2
 import imageio
 import matplotlib.pyplot as plt
+from scipy import ndimage
+from scipy.sparse import csc_matrix
+from scipy.sparse.linalg import lsqr
+
+# def gradient(image):
 
 
 def toy_recon(image):
-    return np.zeros_like(image)
+
+    # For x gradient, g(x) = f(x + 1, y ) - f(x, y), where f is the image function
+    # im2gy = np.zeros_like(image)
+    # # sx = ndimage.sobel(img,axis=0,mode='constant')
+    # im2gy[1:-1] = image[2:] - image[1:-1]
+    # plt.imshow(im2gy)
+    # plt.title('y-gradient')
+    # plt.show()
+
+    # im2gx = np.zeros_like(image)
+    # # sx = ndimage.sobel(img,axis=0,mode='constant')
+    # im2gx[:,1:-1] = image[:,2:] - image[:,1:-1]
+    # plt.imshow(im2gx)
+    # plt.title('x-gradient')
+    # plt.show()
+    """
+    The first step is to write the objective function as a set of least squares constraints 
+    in the standard matrix form: (Av-b)^2. 
+    Here, “A” is a sparse matrix,
+    “v” are the variables to be solved, 
+    and “b” is a known vector.
+    It is helpful to keep a matrix “im2var” that maps each pixel to a variable number, 
+    such as:
+    imh, imw, nb = im.shape
+    im2var = np.arange(imh * imw).reshape((imh, imw)).astype(int)
+    """
+    imh, imw = image.shape
+    print(f"image.shape {image.shape}")
+    im2var = np.arange(imh * imw).reshape((imh, imw)).astype(int) 
+    # im2var.shape (imh, imw)
+    # b.shape (imh, imw)
+    # Objective 1
+    # for i in np.arange(imh * imw):
+    #     A[i , im2var[]]
+    
+    total_len = imh * imw
+    A = np.zeros((total_len * 2 + 1, total_len ))
+    b = np.zeros((total_len * 2 + 1))
+
+    e = 0
+    for y in range(imh):
+        for x in range(imw - 1):
+            A[e, im2var[y, x + 1]] = 1
+            A[e, im2var[y, x]] = -1
+            b[e] = image[y, x + 1] - image[y, x]
+            e +=1
+
+    for x in range(imw):
+        for y in range(imh - 1):
+        # if y != imh - 1: 
+            A[e, im2var[y + 1, x]] = 1
+            A[e, im2var[y, x]] = -1
+            b[e] = image[y + 1, x] - image[y, x]
+            e +=1
+    A[-1, im2var[0, 0]] = 1
+    b[-1] = image[0,0]
+    print(f"A.shape {A.shape}\nb.shape {b.shape}\n")
+    A = csc_matrix(A)
+
+    v = lsqr(A, b, show=False)[0]
+    v = v.reshape((imh, imw))
+    print(f"v.shape {v.shape}")
+
+    
+
+
+
+
+
+
+    return v
+
+def get_surrounding(index):
+	i, j = index
+	return [(i+1,j),(i-1,j),(i,j+1),(i,j-1)]
+
+# def if_border(index):
+#     for i,j in get_surrounding(index):
+#         if 
 
 
 def poisson_blend(fg, mask, bg):
@@ -23,6 +106,32 @@ def poisson_blend(fg, mask, bg):
     :param bg: (H, W, C) target image / background
     :return: (H, W, C)
     """
+    # use mask a a reference tool, 1: mask area, 0: outside
+    imh, imw = fg.shape
+    im2var = np.arange(imh * imw).reshape((imh, imw)).astype(int) 
+
+    total_len = imh * imw
+    A = np.zeros((total_len * 4, total_len ))
+    b = np.zeros((total_len * 4 ))
+
+    e = 0
+    for y in range(imh - 1):
+        for x in range(imw - 1):
+
+            
+            A[e, im2var[y, x + 1]] = 1
+            A[e, im2var[y, x]] = -1
+            b[e] = image[y, x + 1] - image[y, x]
+            e +=1
+
+
+
+
+
+
+
+
+
     return fg * mask + bg * (1 - mask)
 
 
