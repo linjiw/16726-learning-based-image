@@ -206,7 +206,7 @@ def mixed_blend(fg, mask, bg):
     bot = imh - 1
     left = 0
     right = imw - 1
-    pad = 0
+    pad = 5
     for y in range(imh):
         if np.sum(mask[y]) > 0:
             top = y - pad
@@ -261,8 +261,8 @@ def mixed_blend(fg, mask, bg):
                             A[e, im2var[y, x]] = 1
                             # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
                             # if abs(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]) >= abs(bg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel])
-                            print(f"fg.shape {fg.shape} {(top + y, left + x, channel)}")
-                            b[e] = max(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel],bg[top + y, left + x, channel] - bg[top + ii[0], left + ii[1], channel] )
+                            # print(f"fg.shape {fg.shape} {(top + y, left + x, channel)}")
+                            b[e] = max(1.3 * fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel],bg[top + y, left + x, channel] - bg[top + ii[0], left + ii[1], channel] )
 
 
                         else:
@@ -435,10 +435,16 @@ if __name__ == '__main__':
         parser.add_argument("-s", "--source", required=True)
         parser.add_argument("-t", "--target", required=True)
         parser.add_argument("-m", "--mask", required=True)
+        parser.add_argument("-r", "--ratio", required=True)
         args = parser.parse_args()
 
         # after alignment (masking_code.py)
-        ratio = 1.0
+        if args.ratio:
+            
+            ratio = float(args.ratio)
+            
+        else:
+            ratio = 1.0
         fg = cv2.resize(imageio.imread(args.source), (0, 0), fx=ratio, fy=ratio)
         bg = cv2.resize(imageio.imread(args.target), (0, 0), fx=ratio, fy=ratio)
         mask = cv2.resize(imageio.imread(args.mask), (0, 0), fx=ratio, fy=ratio)
@@ -455,17 +461,27 @@ if __name__ == '__main__':
         plt.subplot(122)
         plt.imshow(blend_img)
         plt.title('Poisson Blend')
+        name2 = args.source.split('/')[-1][:-4] + "_" + args.target.split('/')[-1][:-4] + "Blend.jpg"
+
+        plt.savefig(f"./data/{name2}")
         plt.show()
-        plt.savefig(f"Poisson Blend.png")
+        # name2 = name2[:-4]
+        
 
     if args.question == "mixed":
         parser.add_argument("-s", "--source", required=True)
         parser.add_argument("-t", "--target", required=True)
         parser.add_argument("-m", "--mask", required=True)
+        parser.add_argument("-r", "--ratio", required=False)
         args = parser.parse_args()
 
         # after alignment (masking_code.py)
-        ratio = 1.0
+        if args.ratio:
+            
+            ratio = float(args.ratio)
+            
+        else:
+            ratio = 1.0
         fg = cv2.resize(imageio.imread(args.source), (0, 0), fx=ratio, fy=ratio)
         bg = cv2.resize(imageio.imread(args.target), (0, 0), fx=ratio, fy=ratio)
         mask = cv2.resize(imageio.imread(args.mask), (0, 0), fx=ratio, fy=ratio)
@@ -482,8 +498,13 @@ if __name__ == '__main__':
         plt.subplot(122)
         plt.imshow(blend_img)
         plt.title('Mixed Blend')
+        name2 = args.source.split('/')[-1][:-4] + "_" + args.target.split('/')[-1][:-4] + "Mixed Blend.jpg"
+
+        plt.savefig(f"./data/{name2}")
         plt.show()
-        plt.savefig(f"Mixed Blend.png")
+        # name2 = args.source.split('/')[-1][:-4] + "_" + args.target.split('/')[-1][:-4] + "_Mixed Blend.jpg"
+        # # name2 = name2[:-4]
+        # plt.savefig(f"./data/{name2}")
 
     if args.question == "color2gray":
         parser.add_argument("-s", "--source", required=True)

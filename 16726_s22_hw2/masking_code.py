@@ -1,6 +1,6 @@
 # Nikhil Uday Shinde: 7/23/18
 # https://github.com/nikhilushinde/cs194-26_proj3_2.2
-
+import argparse
 import cv2
 import numpy as np
 import skimage as sk
@@ -228,8 +228,16 @@ def save_masks(im1name, im2name):
     return source_mask, target_mask, source_im
 
 # Example usage
-imname = "/Users/linji/16726-learning-based-image/16726_s22_hw2/data/source_2.JPG"
-im2name = "/Users/linji/16726-learning-based-image/16726_s22_hw2/data/target_2.JPG"
+# imname = "/Users/linji/16726-learning-based-image/16726_s22_hw2/data/source_2.JPG"
+# im2name = "/Users/linji/16726-learning-based-image/16726_s22_hw2/data/target_2.JPG"
 # imname = "/Users/linji/16726-learning-based-image/16726_s22_hw2/data/source_01.jpg"
 # im2name = "/Users/linji/16726-learning-based-image/16726_s22_hw2/data/target_01.jpg"
-save_masks(imname, im2name)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser("masking")
+    args, _ = parser.parse_known_args()
+    parser.add_argument("-s", "--source", required=True)
+    parser.add_argument("-t", "--target", required=True)
+    args = parser.parse_args()
+    imname = args.source
+    im2name = args.target
+    save_masks(imname, im2name)
