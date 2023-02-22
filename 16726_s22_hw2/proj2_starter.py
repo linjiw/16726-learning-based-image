@@ -199,12 +199,14 @@ def poisson_blend(fg, mask, bg):
 def mixed_blend(fg, mask, bg):
     """EC: Mix gradient of source and target"""
     imh, imw, cn = fg.shape
-    
-    top = None
-    bot = None
-    left = None
-    right = None
-    pad = 5
+    # return None
+    # print(f"imh, imw, cn {(imh, imw, cn)}")
+    # return None
+    top = 0
+    bot = imh - 1
+    left = 0
+    right = imw - 1
+    pad = 0
     for y in range(imh):
         if np.sum(mask[y]) > 0:
             top = y - pad
@@ -239,7 +241,7 @@ def mixed_blend(fg, mask, bg):
 # else:
 #     d_ij = t_i - t_j
 
-    for channel in range(3):
+    for channel in range(cn):
         im2var = np.arange(mask_width * mask_height).reshape((mask_height, mask_width)).astype(int) 
 
         total_len = mask_width * mask_height
@@ -250,20 +252,24 @@ def mixed_blend(fg, mask, bg):
             for x in range(mask_width):
                 
                 for ii in get_surrounding([y,x]):
-                    if mask[top + ii[0], left + ii[1], 0]:
-                    # print(f"e {e}")
-                        A[e, im2var[ii[0], ii[1]]] = -1
-                        A[e, im2var[y, x]] = 1
-                        # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
-                        # if abs(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]) >= abs(bg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel])
-                        b[e] = max(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel],bg[top + y, left + x, channel] - bg[top + ii[0], left + ii[1], channel] )
+                    if top + ii[0] <imh and left + ii[1] < imw and top + ii[0] >= 0 and left + ii[1] >= 0 and ii[0] <mask_height and ii[1] < mask_width and ii[0] >= 0 and ii[1] >= 0:
+                        # print(f)
+                        if mask[top + ii[0], left + ii[1], 0]:
+                        # print(f"e {e}")
+                            
+                            A[e, im2var[ii[0], ii[1]]] = -1
+                            A[e, im2var[y, x]] = 1
+                            # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
+                            # if abs(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]) >= abs(bg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel])
+                            print(f"fg.shape {fg.shape} {(top + y, left + x, channel)}")
+                            b[e] = max(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel],bg[top + y, left + x, channel] - bg[top + ii[0], left + ii[1], channel] )
 
 
-                    else:
-                        A[e, im2var[y, x]] = 1
-                        b[e] = bg[top + ii[0], left + ii[1], channel]
+                        else:
+                            A[e, im2var[y, x]] = 1
+                            b[e] = bg[top + ii[0], left + ii[1], channel]
                         
-                    e +=1
+                        e +=1
     
         print(f"A.shape {A.shape}\nb.shape {b.shape}\n")
     
@@ -319,74 +325,74 @@ def color2gray(rgb_image):
     # plt.savefig(f"test bbox.png")
     
     # mask_width = np.abs(right - left)
-    # mask_height = np.abs(bot - top)
-    imh,imw, cn = rgb_image.shape
-    all_v = np.zeros((imh, imw, 1))
+#     # mask_height = np.abs(bot - top)
+#     imh,imw, cn = rgb_image.shape
+#     all_v = np.zeros((imh, imw, 1))
 
-# if abs(s_i - s_j) >= abs (t_i - t_j):
-#     d_ij = s_i - s_j
-# else:
-#     d_ij = t_i - t_j
+# # if abs(s_i - s_j) >= abs (t_i - t_j):
+# #     d_ij = s_i - s_j
+# # else:
+# #     d_ij = t_i - t_j
 
-    # for channel in range(3):
-    im2var = np.arange(imh * imw).reshape((imh, imw)).astype(int) 
+#     # for channel in range(3):
+#     im2var = np.arange(imh * imw).reshape((imh, imw)).astype(int) 
 
-    total_len = imh * imw
-    A = np.zeros((total_len * 5, total_len ))
-    b = np.zeros(total_len * 5 )
-    e = 0
-    for y in range(imh):
-        for x in range(imw):
+#     total_len = imh * imw
+#     A = np.zeros((total_len * 5, total_len ))
+#     b = np.zeros(total_len * 5 )
+#     e = 0
+#     for y in range(imh):
+#         for x in range(imw):
             
-            for ii in get_surrounding([y,x]):
-                # if mask[ii[0], ii[1], 0]:
-                # print(f"e {e}")
-                if ii[0]>=0 and ii[0]<imh and ii[1]>=0 and ii[1]<imw:
-                    A[e, im2var[ii[0], ii[1]]] = -1
-                    A[e, im2var[y, x]] = 1
-                    # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
-                    # if abs(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]) >= abs(bg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel])
-                    # b[e] = max(rgb_image[y, x, 0] - rgb_image[ii[0],ii[1], 0],rgb_image[y, x, 1] - rgb_image[ii[0],ii[1], 1], rgb_image[y, x, 2] - rgb_image[ii[0],ii[1], 2] )
-                    # print(b[e])
-                    b[e] = rgb_image[y, x, 0] - rgb_image[ii[0],ii[1], 0]
+#             for ii in get_surrounding([y,x]):
+#                 # if mask[ii[0], ii[1], 0]:
+#                 # print(f"e {e}")
+#                 if ii[0]>=0 and ii[0]<imh and ii[1]>=0 and ii[1]<imw:
+#                     A[e, im2var[ii[0], ii[1]]] = -1
+#                     A[e, im2var[y, x]] = 1
+#                     # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
+#                     # if abs(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]) >= abs(bg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel])
+#                     # b[e] = max(rgb_image[y, x, 0] - rgb_image[ii[0],ii[1], 0],rgb_image[y, x, 1] - rgb_image[ii[0],ii[1], 1], rgb_image[y, x, 2] - rgb_image[ii[0],ii[1], 2] )
+#                     # print(b[e])
+#                     b[e] = rgb_image[y, x, 0] - rgb_image[ii[0],ii[1], 0]
 
-                    # else:
-                    #     A[e, im2var[y, x]] = 1
-                    #     b[e] = bg[top + ii[0], left + ii[1], channel]
+#                     # else:
+#                     #     A[e, im2var[y, x]] = 1
+#                     #     b[e] = bg[top + ii[0], left + ii[1], channel]
                         
-                    e +=1
-            A[e, im2var[y, x]] = 1
-            b[e] = np.mean(rgb_image[y, x,0])    
-            e +=1          
-    # A[e, im2var[int(y/2), int(x/2)]] = 1
-    # b[e] = np.mean(rgb_image[int(y/2), int(x/2),:])
+#                     e +=1
+#             A[e, im2var[y, x]] = 1
+#             b[e] = np.mean(rgb_image[y, x,0])    
+#             e +=1          
+#     # A[e, im2var[int(y/2), int(x/2)]] = 1
+#     # b[e] = np.mean(rgb_image[int(y/2), int(x/2),:])
     
-    print(f"A.shape {A.shape}\nb.shape {b.shape}\n")
+#     print(f"A.shape {A.shape}\nb.shape {b.shape}\n")
 
-    A = csc_matrix(A)
+#     A = csc_matrix(A)
 
-    v = lsqr(A, b, show=False)[0]
-    # print(v)
-    # mean = np.mean(v)
-    # std = np.std(v)
-    # diff_arr = max(v) - min(v)
-    # v = (v - min(v))/diff_arr * 255
-    v = v.reshape((imh, imw))
-    print(v)
+#     v = lsqr(A, b, show=False)[0]
+#     # print(v)
+#     # mean = np.mean(v)
+#     # std = np.std(v)
+#     # diff_arr = max(v) - min(v)
+#     # v = (v - min(v))/diff_arr * 255
+#     v = v.reshape((imh, imw))
+#     print(v)
 
-    # print(f"v.shape {v.shape}")
-    # all_v[:, :, channel] = v
-    # # bg[np.where(mask == 255)] = all_v[np.where(mask == 255)]
-    # ans = bg.copy()
-    # ans[top :bot, left :right] = all_v
-
-
+#     # print(f"v.shape {v.shape}")
+#     # all_v[:, :, channel] = v
+#     # # bg[np.where(mask == 255)] = all_v[np.where(mask == 255)]
+#     # ans = bg.copy()
+#     # ans[top :bot, left :right] = all_v
 
 
 
 
 
-    return v
+
+
+#     return v
     return cv2.cvtColor(rgb_image, cv2.COLOR_RGB2GRAY)
 
 
@@ -402,6 +408,7 @@ def mixed_grad_color2gray(rgb_image):
     # mask[:, -1] = 0
     # mask = mask > 0
     output = mixed_blend(s, mask, v)
+    return output
     return np.zeros_like(rgb_image)
 
 
@@ -458,7 +465,7 @@ if __name__ == '__main__':
         args = parser.parse_args()
 
         # after alignment (masking_code.py)
-        ratio = 1
+        ratio = 1.0
         fg = cv2.resize(imageio.imread(args.source), (0, 0), fx=ratio, fy=ratio)
         bg = cv2.resize(imageio.imread(args.target), (0, 0), fx=ratio, fy=ratio)
         mask = cv2.resize(imageio.imread(args.mask), (0, 0), fx=ratio, fy=ratio)
@@ -487,17 +494,25 @@ if __name__ == '__main__':
         cv_gray = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2GRAY)
         gray_image = color2gray(rgb_image)
         mixed_grad_img = mixed_grad_color2gray(rgb_image)
+        hsv_image  = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2HSV)
 
-        plt.subplot(141)
-        plt.imshow(rgb_image)
+
+        plt.subplot(231)
+        plt.imshow(hsv_image[:,:,0])
+        plt.title('hsv_image 1')
+        plt.subplot(232)
+        plt.imshow(hsv_image[:,:,1])
+        plt.title('hsv_image 2')
+        plt.subplot(233)
+        plt.imshow(hsv_image[:,:,2])
+        plt.title('hsv_image 3')
+        plt.subplot(234)
+        plt.imshow(rgb_image, cmap='gray')
         plt.title('rgb_image')
-        plt.subplot(142)
-        plt.imshow(cv_gray, cmap='gray')
-        plt.title('cv_gray')
-        plt.subplot(143)
+        plt.subplot(235)
         plt.imshow(gray_image, cmap='gray')
         plt.title('rgb2gray')
-        plt.subplot(144)
+        plt.subplot(236)
         plt.imshow(mixed_grad_img, cmap='gray')
         plt.title('mixed gradient')
         plt.show()
