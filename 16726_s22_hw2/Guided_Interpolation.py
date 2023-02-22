@@ -2,22 +2,28 @@ import cv2
 import numpy as np
 from scipy.signal import convolve2d
 
-test_index = '1'
+# test_index = '1'
 
-if test_index == '1':
-	roi_tar_x = 110
-	roi_tar_y = 50
-	IMG_EXTENSIONS = "jpg"
-else:
-	roi_tar_x = 170
-	roi_tar_y = 155
-	IMG_EXTENSIONS = "png"
+# if test_index == '1':
+# 	roi_tar_x = 110
+# 	roi_tar_y = 50
+# 	IMG_EXTENSIONS = "jpg"
+# else:
+# 	roi_tar_x = 170
+# 	roi_tar_y = 155
+# 	IMG_EXTENSIONS = "png"
 
-TargetPath = "test" + test_index + "_target."+IMG_EXTENSIONS
-SourcePath = "test" + test_index + "_src."+IMG_EXTENSIONS
-MaskPath = "test" + test_index + "_mask."+IMG_EXTENSIONS
-SaveFilePath = test_index + "."+IMG_EXTENSIONS
+# TargetPath = "test" + test_index + "_target."+IMG_EXTENSIONS
+# SourcePath = "test" + test_index + "_src."+IMG_EXTENSIONS
+# MaskPath = "test" + test_index + "_mask."+IMG_EXTENSIONS
+TargetPath = '.\data\\target_01.jpg'
+SourcePath = '.\data\\source_01_newsource.png'
+MaskPath = '.\data\\target_01_mask.png'
 
+# SaveFilePath = test_index + "."+IMG_EXTENSIONS
+SaveFilePath = 'output.jpg'
+roi_tar_x = 230
+roi_tar_y = 50
 kernel = np.array([[0,1,0],[1,-4,1],[0,1,0]])
 
 hard = False
@@ -93,6 +99,7 @@ if __name__ == '__main__':
 			N = len(msk_indicies)  # N = number of points in mask
 			A = np.zeros((N, N))
 			b = np.zeros(N)
+			print(f"N {N}")
 			# Create poisson A and b matrix.
 			# Set up row for each point in mask
 			for i,index in enumerate(msk_indicies):
