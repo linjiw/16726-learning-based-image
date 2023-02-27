@@ -160,21 +160,24 @@ def poisson_blend(fg, mask, bg):
             for x in range(mask_width):
                 
                 for ii in get_surrounding([y,x]):
-                    if mask[top + ii[0], left + ii[1], 0]:
-                    # print(f"e {e}")
-                        A[e, im2var[ii[0], ii[1]]] = -1
-                        A[e, im2var[y, x]] = 1
-                        # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
-                        # if abs(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]) >= abs(bg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel])
-                        b[e] = fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]
+                    if top + ii[0] <imh and left + ii[1] < imw and top + ii[0] >= 0 and left + ii[1] >= 0 and ii[0] <mask_height and ii[1] < mask_width and ii[0] >= 0 and ii[1] >= 0:
+
+                        if mask[top + ii[0], left + ii[1], 0]:
+                        # print(f"e {e}")
+                            A[e, im2var[ii[0], ii[1]]] = -1
+                            A[e, im2var[y, x]] = 1
+                            # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
+                            # if abs(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]) >= abs(bg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel])
+                            b[e] = fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]
 
 
-                    else:
-                        A[e, im2var[y, x]] = 1
-                        b[e] = bg[top + ii[0], left + ii[1], channel]
-                        
-                    e +=1
-    
+                        else:
+                            A[e, im2var[y, x]] = 1
+                            # b[e] = bg[top + ii[0], left + ii[1], channel] + fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]
+                            b[e] = bg[top + ii[0], left + ii[1], channel]
+                            
+                        e +=1
+
         print(f"A.shape {A.shape}\nb.shape {b.shape}\n")
     
         A = csc_matrix(A)
