@@ -64,6 +64,8 @@
           <div class="w3-dropdown-content w3-bar-block w3-card-4">
             <a href="#proj_0" class="w3-bar-item w3-button">Project0</a>
             <a href="#proj_1" class="w3-bar-item w3-button">Project1</a>
+            <a href="#proj_2" class="w3-bar-item w3-button">Project2</a>
+
             <!-- <a href="#" class="w3-bar-item w3-button">Media</a> -->
           </div>
           
@@ -199,17 +201,126 @@
           <br><br>
           Finally, we construct the blended image by copying the pixels from the source image into the target region, adjusting their colors and intensities according to the solution of the linear equations. This creates a smooth transition between the target region and the rest of the image, resulting in a final image that looks natural and seamless.
           <br><br>
-          In summary, Poisson blending involves identifying the target region, constructing blending constraints based on the gradients of the images, solving a least squares problem to find the values for each pixel in the target region, and then constructing the final image by copying the pixels from the source image and adjusting their colors and intensities. The result is a seamless and natural-looking image. <p class="w3-justify"><b>Results: toy problem</b> Left side: Original image; Right side: Reconstructed Image
+          In summary, Poisson blending involves identifying the target region, constructing blending constraints based on the gradients of the images, solving a least squares problem to find the values for each pixel in the target region, and then constructing the final image by copying the pixels from the source image and adjusting their colors and intensities. The result is a seamless and natural-looking image. <p class="w3-justify">
+            <b>Results: poisson blend</b> Left side: Naive Blend; Right side: Poisson Blend
           <!-- <la-tex display="block">SSD = \sum_{x,y}({H_{x,y} - I_{x,y}})</la-tex> -->
         </p> -->
         <!-- <img> -->
-        <img src="./data/toy_reconstruction.png" style="width: 40%" />
-   
-        <p span="caption">Figure 2. Cathedral: SSD, Shift:[0, -25],[7, -25] time cost: 2.13s</p>
+        <img src="./data/source_01.jpg" style="width: 80%" />
+        <p span="caption"> Source: A Bear</p>
 
-          <p class="w3-justify">
-            where <i>I</i> and  <i>H</i> are function of two images and x,y are pixels positions.
-          </p>
+        <img src="./data/source_01_newsource_target_01Blend.jpg" style="width: 100%" />
+        <p span="caption"> A Bear swimming with a girl in a pool</p>
+
+        <img src="./data/source_2.jpg" style="width: 80%" />
+        <p span="caption"> Source: A Whale</p>
+
+        <img src="./data/source_2_newsource_target_2Blend.jpg" style="width: 100%" />
+        <p span="caption"> A Whale swimming at the sea of Boston</p>
+        <img src="./data/source_03.jpg" style="width: 80%" />
+        <p span="caption"> Source: A man</p>
+
+        <img src="./data/source_03_newsource_target_03Blend.jpg" style="width: 100%" />
+        <p span="caption"> Mona Lisa with a man's face</p>
+        <img src="./data/source_04.jpg" style="width: 80%" />
+        <p span="caption"> Source: A cat</p>
+
+        <img src="./data/source_04_newsource_target_04Blend.jpg" style="width: 100%" />
+        <p span="caption"> A cat with another cat's face</p>
+        <img src="./data/source_05.jpg" style="width: 80%" />
+        <p span="caption"> Source: A cat</p>
+
+        <img src="./data/source_05_newsource_target_05Blend.jpg" style="width: 100%" />
+        <p span="caption"> A cat with another cat's face</p>
+        <img src="./data/source_06.jpg" style="width: 80%" />
+        <p span="caption"> Source: A snowman</p>
+
+        <img src="./data/source_06_newsource_target_06Blend.jpg" style="width: 100%" />
+        <p span="caption"> A snowman standing at The Mall, CMU       </p>
+
+        <img src="./data/source_07.jpg" style="width: 80%" />
+        <p span="caption"> Source: A painting</p>
+
+        <img src="./data/source_07_newsource_target_07Blend.jpg" style="width: 100%" />
+        <p span="caption"> A painting at College of Fine Arts Lawn, CMU        </p>
+        <h3> Mixed Poisson blending</h3>
+        <p class="w3-justify"> 
+          To elaborate, Mixed Poisson blending is a variation of Poisson blending that is used to blend images with different color channels or color spaces. The process involves identifying the target region, constructing blending constraints, and solving a least squares problem to find the values for each pixel in the target region.
+<br><br>
+The blending constraints are based on the idea that the brightness or intensity of the image should be consistent across the boundary between the target region and the rest of the image. In Mixed Poisson blending, these constraints are constructed by taking the greatest gradient in the image and using it to construct a sparse matrix.
+<br><br>
+
+The sparse matrix is used to solve the least squares problem, which involves finding the values for each pixel in the target region that satisfy the blending constraints. The solution involves using iterative methods to find the optimal solution that minimizes the difference between the gradients of the target region and the greatest gradient of the image, subject to the blending constraints.
+<br><br>
+
+The resulting pixel values are combined to create the final blended image, which maintains the colors and textures of each image while appearing seamless and natural.
+<br><br>
+
+In summary, Mixed Poisson blending is used to blend images with different color channels or color spaces. The blending constraints are constructed using the greatest gradient in the image to create a sparse matrix, which is then used to solve the least squares problem and find the pixel values in the target region. The resulting blended image maintains the colors and textures of each image, while appearing seamless and natural.       
+<b>Results: Mixed poisson blend</b> Left side: Naive Blend; Right side: Mixed Poisson Blend
+          <!-- <la-tex display="block">SSD = \sum_{x,y}({H_{x,y} - I_{x,y}})</la-tex> -->
+     
+          <h3> Mixed Poisson blending</h3>
+        </p> -->
+        <img src="./data/source_01.jpg" style="width: 80%" />
+        <p span="caption"> Source: A Bear</p>
+
+        <img src="./data/source_01_newsource_target_01Mixed Blend.jpg" style="width: 100%" />
+        <p span="caption"> A Bear swimming with a girl in a pool</p>
+
+        <img src="./data/source_2.jpg" style="width: 80%" />
+        <p span="caption"> Source: A Whale</p>
+
+        <img src="./data/source_2_newsource_target_2Mixed Blend.jpg" style="width: 100%" />
+        <p span="caption"> A Whale swimming at the sea of Boston</p>
+        <img src="./data/source_03.jpg" style="width: 80%" />
+        <p span="caption"> Source: A man</p>
+
+        <img src="./data/source_03_newsource_target_03Mixed Blend.jpg" style="width: 100%" />
+        <p span="caption"> Mona Lisa with a man's face</p>
+        <img src="./data/source_04.jpg" style="width: 80%" />
+        <p span="caption"> Source: A cat</p>
+
+        <img src="./data/source_04_newsource_target_04Mixed Blend.jpg" style="width: 100%" />
+        <p span="caption"> A cat with another cat's face</p>
+        <img src="./data/source_05.jpg" style="width: 80%" />
+        <p span="caption"> Source: A cat</p>
+
+        <img src="./data/source_05_newsource_target_05Mixed Blend.jpg" style="width: 100%" />
+        <p span="caption"> A cat with another cat's face</p>
+        <img src="./data/source_06.jpg" style="width: 80%" />
+        <p span="caption"> Source: A snowman</p>
+
+        <img src="./data/source_06_newsource_target_06Mixed Blend.jpg" style="width: 100%" />
+        <p span="caption"> A snowman standing at The Mall, CMU       </p>
+
+        <img src="./data/source_07.jpg" style="width: 80%" />
+        <p span="caption"> Source: A painting</p>
+        <img src="./data/source_07_newsource_target_07Mixed Blend.jpg" style="width: 100%" />
+        <p span="caption"> A painting at College of Fine Arts Lawn, CMU        </p>
+
+        <h3> Color2Gray</h3>
+        <p class="w3-justify">
+          The color2gray problem refers to the challenge of converting a color image to a grayscale image while preserving the essential information. Grayscale images are often used in applications such as printing, where color images may not be necessary or may be too expensive to produce.
+<br><br>
+One approach to solving the color2gray problem is to convert the image to the HSV (Hue, Saturation, Value) color space. The HSV color space separates color information into three channels: Hue, Saturation, and Value. The Hue channel represents the color itself, while the Saturation and Value channels represent the intensity of the color.
+<br><br>
+In the HSV color space, we can notice the color difference between channels, which can help us to preserve the essential information when converting to grayscale. One technique for converting an HSV image to grayscale is to use Mixed Poisson Blending. This technique involves solving a least squares problem that takes into account the greatest gradient in the image to construct a sparse matrix. The sparse matrix is used to find the values for each pixel in the target region, resulting in a grayscale image that maintains the essential information from the original color image.
+<br><br>
+In summary, the color2gray problem refers to the challenge of converting a color image to grayscale while preserving the essential information. In the HSV color space, we can notice the color difference between channels, and Mixed Poisson Blending can be used to solve the color2gray problem while maintaining the essential information.
+
+
+
+
+
+        </p>
+        <img src="./data/colorBlindTest35.png" style="width: 60%" />
+        <p span="caption"> A colorBlindTest image</p>
+        <img src="./data/rgb2gray_results.jpg" style="width: 100%" />
+        <p span="caption"> A Gray colorBlindTest image and its HSV distributions</p>
+
+
+<!-- 
           <img src=".\data\11_13PM_February_14_2023\cathedral.jpg_square_limit25_CROPFalse_CannyTrue_PyramidFalse_CMEASFalse_methodSSD_shift[[0, -25],[7, -25]]_time_cost 2.1364333629608154.jpg" style="width: 40%;">
           <p span="caption">Figure 2. Cathedral: SSD, Shift:[0, -25],[7, -25] time cost: 2.13s</p>
           <p class="w3-justify"><b>Normalized Cross Correlation</b> NNC is calculated     based on the following equation:     </p>
@@ -274,77 +385,8 @@
       <P class="w3-justify">
         <b>Auto Border Crop</b>
         <p class="w3-justify">The borders seem very annoying: 1. They don't contribute to the final results. 2. They can even mess our matching metric.</p>
-        <!-- <br> -->
-        <p class="w3-justify">Let's try to build a simple border corp algo to handle it.</p>
-        <!-- <br> -->
-        <p class="w3-justify">1. Define what is a border. Border usually is a long vertical or horizontal distinction between two parts. We can use this attribute as a start.</p>
-        <!-- <br> -->
-        <p class="w3-justify">2. Detect the distinctions. Since the distinction is a huge difference between two parts, they can surely be detected by the edge detector. We utilize Canny Edge Detector for this problem, and define the longgest horizontal/vertical edge as the border. If the edge counts more than 90% of the height or width, we define it as the border and use the ratio as the crop ratio.</p>
-        <!-- <br> -->
-        <p class="w3-justify">Let's see some images after we implementing the auto border crop.</p>
-        <img src="./data/train.tifsquare_limit1_CROPTrue_CannyFalse_PyramidTrue_searchFalse_methodSSD.jpg" style="width: 40%;">
-        <p span="caption">Figure 18. Train: SSD with Pyramid, CROP, time cost: 34.05s</p>
-
-        <img src="./data/train.tifsquare_limit1_CROPTrue_CannyFalse_PyramidTrue_searchFalse_methodNCC.jpg" style="width: 40%;">
-        <p span="caption">Figure 19. Train: NCC with Pyramid, CROP, time cost: 44.67s</p>
-
-        <p class="w3-justify">The border got cropped before and after the image matching to ensure a clean image. However, the channels are still not matched very well.</p>
-        <p class="w3-justify"> <b >Edge Detector</b></p> 
-        <p class="w3-justify">Maybe pixel intensity is not enough for the matching, other features like edges are also important. This time, we use Canny edges for SSD and NCC for image matching.</p>
-        <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchFalse_methodSSD.jpg" style="width: 40%;">
-
-        <p span="caption">Figure 20. Train: SSD with Pyramid, CROP, Canny, time cost: 18.30s</p>
-        <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchFalse_methodNCC.jpg" style="width: 40%;">
-
-        <p span="caption">Figure 21. Train: NCC with Pyramid, CROP, Canny, time cost: 43.35s</p>
-
-        <br>
-      </P>
-      <h3> Extra Credit</h3>
-      <P class="w3-justify">
-        <b>Evolution Method: Covariance matrix adaptation evolution strategy (CMA-ES)</b>
-        The Exhaustive Search can only work for small images and small window size, due to its time complexity of <la-tex>O(windowsize)^2</la-tex>.
-        I propose a novel optimization approach to search the best alignment with CMA-ES. This black-box optimization algorithm consists on treating the search space as a multivariate Gaussian, with varying mean and covariance matrix. The algorithm starts with a population P, initial x and y movement, and initial covariance. We select elites by keeping a fraction of the population of 10\% at each iteration, and noise \epsilon is added to covariance at each step. We let the algorithm run for several iterations based on image size and set an initial Gaussian variance corroesponding to the windowsize. We optimize using the following equations:
-        <!-- <br> -->
-      </P>
-      <img src="./data/evolutionsearch.png" style="width: 40%;">
-      <p class="w3-justify">Let's see this cool GIF to have an idea how the evolution method find the optimal values.</p>
-      <img src="./data/CMEASanime.gif" style="width: 40%;">
-      <p span="caption">Figure 22. CMEAS parameter update process</p>
-
-      <img src="./data/IMGMOVEanime.gif" style="width: 40%;">
-      <!-- <img src="./data/IMGMOVEanime.gif" style="width: 40%;"> -->
-      <p span="caption">Figure 23. CMEAS image update process</p>
-
-      
-      <br>
-      <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodSSD.jpg" style="width:  40%;">
-      <p span="caption">Figure 24. Train: SSD with Pyramid, Canny, CMEAS, CROP, time cost: 12.89s</p>
-      <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 25. Train: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 25.77s</p>
-
-      <p class="w3-justify">The CMEAS Evolution method brings 35% performance increase with more clear results.</p>
-      <h3> Final Results</h3>
-      <img src="./data/cathedral.jpg_square_limit10_CROPTrue_CannyTrue_PyramidTrue_CMEASTrue_methodNCC_shift[[5, 2],[12, 1]]_time_cost 1.9317255020141602.jpg" style="width:  40%;">
-      <p span="caption">Figure 26. cathedral: shift[[5, 2],[12, 1]]_time_cost 1.93s</p>
-      <img src="./data/emir.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 27. emir: shift[[38, 16],[91, 18]]_time_cost 31.65s</p>
-      <img src="./data/harvesters.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 28. harvesters: shift[[61, 13],[123, 13]]_time_cost 40.10s</p>
-      <img src="./data/icon.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 29. icon: shift[[30, 16],[76, 22]]_time_cost 33.83s</p>
-      <img src="./data/lady.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 30. lady: shift[[52, 7],[120, 4]]_time_cost 31.90s</p>
-      <img src="./data/self_portrait.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 31. self_portrait: shift[[74, 25],[167, 19]]_time_cost 32.29s</p>
-      <img src="./data/three_generations.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 32. three_generations: shift[[44, 6],[106, 6]]_time_cost 38.12s</p>
-      <img src="./data/turkmen.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 33. turkmen: shift[[56, 20],[105, 21]]_time_cost 34.34s</p>
-      <img src="./data/village.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 34. village: shift[[63, 3],[136, 20]]_time_cost 38.50s</p>
-      <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
-      <p span="caption">Figure 35. train: shift[[41, 0],[78, 23]]_time_cost 46.49s</p>
+ 
+  -->
 
       <!-- <div class="w3-row w3-padding-32"> -->
       <!-- <div class="w3-third">
@@ -399,6 +441,11 @@
           <li  class="w3-padding" id="proj_1">
             <a href="./index.html"> Project 1  </a>
             <img src="./data/HARVESTORanime.gif" style="width: 40%;">
+            <span class="w3-tag w3-green w3-margin-left">Finished</span>
+          </li>
+          <li  class="w3-padding" id="proj_2">
+            <a href="./index.html"> Project 2  </a>
+            <img src="./data/results_source_01_newsource_target_01Mixed Blend.jpg" style="width: 40%;">
             <span class="w3-tag w3-green w3-margin-left">Finished</span>
           </li>
           <!-- <li class="w3-padding">

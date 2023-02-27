@@ -114,7 +114,7 @@ def poisson_blend(fg, mask, bg):
     bot = None
     left = None
     right = None
-    pad = 5
+    pad = 0
     for y in range(imh):
         if np.sum(mask[y]) > 0:
             top = y - pad
@@ -207,7 +207,7 @@ def mixed_blend(fg, mask, bg):
     bot = imh - 1
     left = 0
     right = imw - 1
-    pad = 5
+    pad = 0
     for y in range(imh):
         if np.sum(mask[y]) > 0:
             top = y - pad
@@ -542,6 +542,7 @@ if __name__ == '__main__':
         plt.subplot(236)
         plt.imshow(mixed_grad_img, cmap='gray')
         plt.title('mixed gradient')
+        plt.savefig(f"./data/rgb2gray_results.jpg")
         plt.show()
 
     plt.close()
