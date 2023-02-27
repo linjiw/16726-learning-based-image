@@ -12,7 +12,8 @@ import matplotlib.pyplot as plt
 from scipy import ndimage
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import lsqr
-
+import skimage as sk
+import skimage.io as skio
 # def gradient(image):
 
 
@@ -77,7 +78,7 @@ def toy_recon(image):
     A = csc_matrix(A)
 
     v = lsqr(A, b, show=False)[0]
-    v = v.reshape((imh, imw))
+    v = v.reshape((imh, imw)) + 1
     print(f"v.shape {v.shape}")
 
     
@@ -262,7 +263,7 @@ def mixed_blend(fg, mask, bg):
                             # print(fg[ii[0], ii[1], channel] - fg[y, x, channel])
                             # if abs(fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]) >= abs(bg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel])
                             # print(f"fg.shape {fg.shape} {(top + y, left + x, channel)}")
-                            b[e] = max(1.3 * fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel],bg[top + y, left + x, channel] - bg[top + ii[0], left + ii[1], channel] )
+                            b[e] = max(1.0 * fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel],bg[top + y, left + x, channel] - bg[top + ii[0], left + ii[1], channel] )
 
 
                         else:
@@ -428,7 +429,10 @@ if __name__ == '__main__':
         plt.subplot(122)
         plt.imshow(image_hat, cmap='gray')
         plt.title('Output')
+        plt.savefig(f"./data/toy_reconstruction.png")
         plt.show()
+        # skio.imsave()
+        
 
     # Example script: python proj2_starter.py -q blend -s data/source_01_newsource.png -t data/target_01.jpg -m data/target_01_mask.png
     if args.question == "blend":
@@ -491,7 +495,6 @@ if __name__ == '__main__':
         mask = (mask.sum(axis=2, keepdims=True) > 0)
 
         blend_img = mixed_blend(fg, mask, bg)
-
         plt.subplot(121)
         plt.imshow(fg * mask + bg * (1 - mask))
         plt.title('Naive Blend')
@@ -502,6 +505,9 @@ if __name__ == '__main__':
 
         plt.savefig(f"./data/{name2}")
         plt.show()
+        # plt.imsave(f"./data/results_{name2}",blend_img)
+        skio.imsave(f"./data/results_{name2}",blend_img)
+
         # name2 = args.source.split('/')[-1][:-4] + "_" + args.target.split('/')[-1][:-4] + "_Mixed Blend.jpg"
         # # name2 = name2[:-4]
         # plt.savefig(f"./data/{name2}")

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>HW 1</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://fred-wang.github.io/TeXZilla/TeXZilla-min.js"></script>
+    <script src="https://fred-wang.github.io/TeXZilla/examples/customElement.js"></script>
+
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      body {
+        font-family: 'Lato', sans-serif;
+      }
+      .mySlides {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="w3-top">
+      <div class="w3-bar w3-black w3-card">
+        <a
+          class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right"
+          href="javascript:void(0)"
+          onclick="myFunction()"
+          title="Toggle Navigation Menu"
+          ><i class="fa fa-bars"></i
+        ></a>
+        <a href="#" class="w3-bar-item w3-button w3-padding-large">HOME</a>
+        <a
+          href="#band"
+          class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+          >About Me</a
+        >
+
+        <div class="w3-dropdown-hover w3-hide-small">
+          <button class="w3-padding-large w3-button" title="More">
+            Projects <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <a href="#proj_0" class="w3-bar-item w3-button">Project0</a>
+            <a href="#proj_1" class="w3-bar-item w3-button">Project1</a>
+            <!-- <a href="#" class="w3-bar-item w3-button">Media</a> -->
+          </div>
+          
+        </div>
+        <a
+          href="javascript:void(0)"
+          class="w3-padding-large w3-hover-red w3-hide-small w3-right"
+          ><i class="fa fa-search"></i
+        ></a>
+      </div>
+    </div>
+
+    <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+    <!-- <div
+      id="navDemo"
+      class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top"
+      style="margin-top: 46px"
+    >
+      <a
+        href="#band"
+        class="w3-bar-item w3-button w3-padding-large"
+        onclick="myFunction()"
+        >BAND</a
+      >
+      <a
+        href="#tour"
+        class="w3-bar-item w3-button w3-padding-large"
+        onclick="myFunction()"
+        >TOUR</a
+      >
+      <a
+        href="#contact"
+        class="w3-bar-item w3-button w3-padding-large"
+        onclick="myFunction()"
+        >CONTACT</a
+      >
+      <a
+        href="#"
+        class="w3-bar-item w3-button w3-padding-large"
+        onclick="myFunction()"
+        >MERCH</a
+      >
+    </div> -->
+
+    <!-- Page content -->
+    <div class="w3-content" style="max-width: 2000px; margin-top: 46px">
+      <!-- Automatic Slideshow Images -->
+      <div class="mySlides w3-display-container w3-center">
+        <img src="./data/harvesters.tif_NCC.jpg" style="width: 50%" />
+        <!-- <div
+          class="w3-display-bottommiddle w3-container w3-text-black w3-padding-64 w3-hide-small"
+        >
+          <h1>Harvesters</h1>
+          <p><b>Almost aligned : )</b></p>
+        </div> -->
+      </div>
+      <!-- <div class="mySlides w3-display-container w3-center">
+        <img src="/w3images/ny.jpg" style="width: 100%" />
+        <div
+          class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small"
+        >
+          <h3>New York</h3>
+          <p><b>The atmosphere in New York is lorem ipsum.</b></p>
+        </div>
+      </div>
+      <div class="mySlides w3-display-container w3-center">
+        <img src="/w3images/chicago.jpg" style="width: 100%" />
+        <div
+          class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small"
+        >
+          <h3>Chicago</h3>
+          <p><b>Thank you, Chicago - A night we won't forget.</b></p>
+        </div> -->
+    </div>
+
+    <!-- The Band Section -->
+    <div
+      class="w3-container w3-content w3-center w3-padding-64"
+      style="max-width: 800px"
+      id="band"
+    >
+      <h2 class="w3-wide" id="#Project1">Colorizing the Prokudin-Gorskii Photo Collection</h2>
+      <p class="w3-opacity"><i>by Linji Wang, Feb 07, 2023</i></p>
+      <h3> Overview</h3>
+      <p class="w3-justify"> This project requires you to use image processing techniques to create a color image from the digitized Prokudin-Gorskii glass plate photographs, with the goal of producing an image with as few visual artifacts as possible.
+        A digital picture of a glass plate, with its three channels arranged from top to bottom as BGR (see Figure 1), serves as the process's input. Our task is to isolate the three channels and properly align them. </p>
+        <img src="./data/cathedral.jpg" style="width: 40%" />
+        <p span = "caption">Figure 1. Digitized Glass Plate: Cathedral</p>
+        <!-- <h3> Pre-processing</h3> -->
+        <!-- <p class="w3-justify">From the original image</p> -->
+        <h3> Matching Metric</h3>
+        <p class="w3-justify"> 
+          Image matching means to manipulate image to ensure the best results for your similarity metrics. Thus, it is important to choose an efficient and accurate image matching metrics. For this assignment, I explored Sum of Squared Differences (SSD) and Normalized Cross Correlation (NCC) functions. The objective is to maximize or minimize one of these functions by searching and manipulating the images.
+        </p>
+        <p class="w3-justify"><b>Sum of Squared Differences</b> SSD  is calculated     based on the following equation:     </p>
+        <!-- <p> 
+          <la-tex display="block">SSD = \sum_{x,y}({H_{x,y} - I_{x,y}})</la-tex></p> -->
+        <!-- <img> -->
+        <img src="./data/ssd.png" style="width: 40%" />
+          <p class="w3-justify">
+            where <i>I</i> and  <i>H</i> are function of two images and x,y are pixels positions.
+          </p>
+          <img src=".\data\11_13PM_February_14_2023\cathedral.jpg_square_limit25_CROPFalse_CannyTrue_PyramidFalse_CMEASFalse_methodSSD_shift[[0, -25],[7, -25]]_time_cost 2.1364333629608154.jpg" style="width: 40%;">
+          <p span="caption">Figure 2. Cathedral: SSD, Shift:[0, -25],[7, -25] time cost: 2.13s</p>
+          <p class="w3-justify"><b>Normalized Cross Correlation</b> NNC is calculated     based on the following equation:     </p>
+          <img src="./data/ncc.png" style="width: 40%" />
+          <p class="w3-justify"> where <la-tex>\mu I</la-tex> and<la-tex>\mu H</la-tex> are the luminance of each image.</p>
+          <img src=".\data\11_13PM_February_14_2023\cathedral.jpg_square_limit25_CROPFalse_CannyTrue_PyramidFalse_CMEASFalse_methodNCC_shift[[0, -25],[7, -25]]_time_cost 9.591359376907349.jpg" style="width: 40%;">
+          <p span="caption">Figure 3. Cathedral: NCC, Shift:[0, -25],[7, -25] time cost: 9.59s</p>
+          <h3> Efficiency</h3>
+          <p class="w3-justify">In the above implementation, we construct two for loops to search for the best position in a small window. Comparing and searching image in a small image might work; however, it will take minutes to process a 3500 by 3500 image.
+            We need additional algorithms to pursue efficiency: 
+
+          </p>
+          <p class="w3-justify"><strong>Image Pyramid Search </strong> This is an efficient search
+            algorithm that generally yields good results in less than 60 seconds for
+        high resolution images—up to 9000 pixels. As mentioned above, this
+            algorithm scales down the image by <i>scale_factor</i> times, being
+            <i>scale_factor</i> an automated parameter based on the input image resolution.
+            Given an initial window search, the algorithm searches from coarse to
+            fine images, within the reduced window size, which decreases by a hyperparameter
+            of <i>window_size</i> as the images become larger.<br>
+            
+        </p>
+        <img src="./data/pyramid.jpg" style="width: 40%;">
+        <p span="caption">https://en.wikipedia.org/wiki/Pyramid_(image_processing)</p>
+        <p class="w3-justify">Let's first see how long will it take if we process a 3000 by 3000 image without pyramid search.</p>
+        <img src="./data/train.tifsquare_limit50_CROPFalse_CannyFalse_PyramidFalse_searchFalse_methodSSD.jpg" style="width: 40%" >
+        <p span="caption">Figure 4. Train: SSD w/o Pyramid, time cost: 1857s</p>
+        <img src="./data/train.tifsquare_limit50_CROPFalse_CannyFalse_PyramidFalse_searchFalse_methodNCC.jpg" style="width: 40%" >
+        <p span="caption">Figure 5. Train: NCC w/o Pyramid, time cost: 4486s</p>
+        <p span="caption">https://en.wikipedia.org/wiki/Pyramid_(image_processing)</p>
+        <p class="w3-justify">Let's apply the pyramid search to see how it affect the searching.</p>
+        <img src="./data/train.tifsquare_limit1_CROPFalse_CannyFalse_PyramidTrue_searchFalse_methodSSD.jpg" style="width: 40%" >
+        <p span="caption">Figure 6. Train: SSD with Pyramid, time cost: 19.03s</p>
+        <img src="./data/train.tifsquare_limit1_CROPFalse_CannyFalse_PyramidTrue_searchFalse_methodNCC.jpg" style="width: 40%" >
+        <p span="caption">Figure 7. Train: NCC with Pyramid, time cost: 39.41s</p>
+        <p class="w3-justify">Wow, I believe that is a huge performance increase. But the image quality seems not good enough. We will introduce a few of methods in the following part.</p>
+        <p class="w3-justify">The following are the results with the Pyramid method.</p>
+
+        <h3> Pyramid Results</h3>
+        <img src=".\data\04_11PM_February_14_2023\cathedral.jpg_square_limit25_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[0, -16],[6, -16]]_time_cost 0.7590944766998291.jpg" style="width:  40%;">
+        <p span="caption">Figure 8. cathedral: Shift: [0, -16],[6, -16], time cost: 0.75s</p>
+        <img src=".\data\04_11PM_February_14_2023\emir.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[-9, -78],[64, -35]]_time_cost 55.55182671546936.jpg" style="width:  40%;">
+        <p span="caption">Figure 9. emir: Shift: [-9, -78],[64, -35], time cost: 55.55s</p>
+        <img src=".\data\04_11PM_February_14_2023\harvesters.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[64, -80],[64, -65]]_time_cost 56.50710463523865.jpg" style="width:  40%;">
+        <p span="caption">Figure 10. harvesters: Shift: [64, -80],[64, -65], time cost: 56.50s</p>
+        <img src=".\data\04_11PM_February_14_2023\icon.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[64, -80],[64, -80]]_time_cost 57.38401412963867.jpg" style="width:  40%;">
+        <p span="caption">Figure 11. icon: Shift: [64, -80],[64, -80], time cost: 57.38s</p>
+        <img src=".\data\04_11PM_February_14_2023\lady.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[64, -80],[64, -80]]_time_cost 57.11059498786926.jpg" style="width:  40%;">
+        <p span="caption">Figure 12. lady: Shift: [64, -80],[64, -80], time cost: 57.11s</p>
+        <img src=".\data\04_11PM_February_14_2023\self_portrait.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[42, -80],[64, -80]]_time_cost 58.938451290130615.jpg" style="width:  40%;">
+        <p span="caption">Figure 13. self_portrait: Shift: [42, -80],[64, -80], time cost: 58.93s</p>
+        <img src=".\data\04_11PM_February_14_2023\three_generations.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[52, -80],[64, -80]]_time_cost 56.76436400413513.jpg" style="width:  40%;">
+        <p span="caption">Figure 14. three_generations: Shift: [52, -80],[64, -80], time cost: 56.76s</p>
+        <img src=".\data\04_11PM_February_14_2023\train.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[0, -65],[64, -70]]_time_cost 56.692832708358765.jpg" style="width:  40%;">
+        <p span="caption">Figure 15. train: Shift: [0, -65],[64, -70], time cost: 56.69s</p>
+        <img src=".\data\04_11PM_February_14_2023\turkmen.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[64, -77],[64, -60]]_time_cost 64.7242820262909.jpg" style="width:  40%;">
+        <p span="caption">Figure 16. turkmen: Shift: [64, -77],[64, -60], time cost: 64.72s</p>
+        <img src=".\data\04_11PM_February_14_2023\village.tif_square_limit50_CROPFalse_CannyFalse_PyramidTrue_CMEASFalse_methodNCC_shift[[17, -80],[64, -80]]_time_cost 61.3076376914978.jpg" style="width:  40%;">
+        <p span="caption">Figure 17. village: Shift: [17, -80],[64, -80], time cost: 61.30</p>
+
+      <h3> Bells & Whistles</h3>
+      <P class="w3-justify">
+        <b>Auto Border Crop</b>
+        <p class="w3-justify">The borders seem very annoying: 1. They don't contribute to the final results. 2. They can even mess our matching metric.</p>
+        <!-- <br> -->
+        <p class="w3-justify">Let's try to build a simple border corp algo to handle it.</p>
+        <!-- <br> -->
+        <p class="w3-justify">1. Define what is a border. Border usually is a long vertical or horizontal distinction between two parts. We can use this attribute as a start.</p>
+        <!-- <br> -->
+        <p class="w3-justify">2. Detect the distinctions. Since the distinction is a huge difference between two parts, they can surely be detected by the edge detector. We utilize Canny Edge Detector for this problem, and define the longgest horizontal/vertical edge as the border. If the edge counts more than 90% of the height or width, we define it as the border and use the ratio as the crop ratio.</p>
+        <!-- <br> -->
+        <p class="w3-justify">Let's see some images after we implementing the auto border crop.</p>
+        <img src="./data/train.tifsquare_limit1_CROPTrue_CannyFalse_PyramidTrue_searchFalse_methodSSD.jpg" style="width: 40%;">
+        <p span="caption">Figure 18. Train: SSD with Pyramid, CROP, time cost: 34.05s</p>
+
+        <img src="./data/train.tifsquare_limit1_CROPTrue_CannyFalse_PyramidTrue_searchFalse_methodNCC.jpg" style="width: 40%;">
+        <p span="caption">Figure 19. Train: NCC with Pyramid, CROP, time cost: 44.67s</p>
+
+        <p class="w3-justify">The border got cropped before and after the image matching to ensure a clean image. However, the channels are still not matched very well.</p>
+        <p class="w3-justify"> <b >Edge Detector</b></p> 
+        <p class="w3-justify">Maybe pixel intensity is not enough for the matching, other features like edges are also important. This time, we use Canny edges for SSD and NCC for image matching.</p>
+        <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchFalse_methodSSD.jpg" style="width: 40%;">
+
+        <p span="caption">Figure 20. Train: SSD with Pyramid, CROP, Canny, time cost: 18.30s</p>
+        <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchFalse_methodNCC.jpg" style="width: 40%;">
+
+        <p span="caption">Figure 21. Train: NCC with Pyramid, CROP, Canny, time cost: 43.35s</p>
+
+        <br>
+      </P>
+      <h3> Extra Credit</h3>
+      <P class="w3-justify">
+        <b>Evolution Method: Covariance matrix adaptation evolution strategy (CMA-ES)</b>
+        The Exhaustive Search can only work for small images and small window size, due to its time complexity of <la-tex>O(windowsize)^2</la-tex>.
+        I propose a novel optimization approach to search the best alignment with CMA-ES. This black-box optimization algorithm consists on treating the search space as a multivariate Gaussian, with varying mean and covariance matrix. The algorithm starts with a population P, initial x and y movement, and initial covariance. We select elites by keeping a fraction of the population of 10\% at each iteration, and noise \epsilon is added to covariance at each step. We let the algorithm run for several iterations based on image size and set an initial Gaussian variance corroesponding to the windowsize. We optimize using the following equations:
+        <!-- <br> -->
+      </P>
+      <img src="./data/evolutionsearch.png" style="width: 40%;">
+      <p class="w3-justify">Let's see this cool GIF to have an idea how the evolution method find the optimal values.</p>
+      <img src="./data/CMEASanime.gif" style="width: 40%;">
+      <p span="caption">Figure 22. CMEAS parameter update process</p>
+
+      <img src="./data/IMGMOVEanime.gif" style="width: 40%;">
+      <!-- <img src="./data/IMGMOVEanime.gif" style="width: 40%;"> -->
+      <p span="caption">Figure 23. CMEAS image update process</p>
+
+      
+      <br>
+      <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodSSD.jpg" style="width:  40%;">
+      <p span="caption">Figure 24. Train: SSD with Pyramid, Canny, CMEAS, CROP, time cost: 12.89s</p>
+      <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 25. Train: NCC with Pyramid, Canny, CMEAS, CROP, time cost: 25.77s</p>
+
+      <p class="w3-justify">The CMEAS Evolution method brings 35% performance increase with more clear results.</p>
+      <h3> Final Results</h3>
+      <img src="./data/cathedral.jpg_square_limit10_CROPTrue_CannyTrue_PyramidTrue_CMEASTrue_methodNCC_shift[[5, 2],[12, 1]]_time_cost 1.9317255020141602.jpg" style="width:  40%;">
+      <p span="caption">Figure 26. cathedral: shift[[5, 2],[12, 1]]_time_cost 1.93s</p>
+      <img src="./data/emir.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 27. emir: shift[[38, 16],[91, 18]]_time_cost 31.65s</p>
+      <img src="./data/harvesters.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 28. harvesters: shift[[61, 13],[123, 13]]_time_cost 40.10s</p>
+      <img src="./data/icon.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 29. icon: shift[[30, 16],[76, 22]]_time_cost 33.83s</p>
+      <img src="./data/lady.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 30. lady: shift[[52, 7],[120, 4]]_time_cost 31.90s</p>
+      <img src="./data/self_portrait.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 31. self_portrait: shift[[74, 25],[167, 19]]_time_cost 32.29s</p>
+      <img src="./data/three_generations.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 32. three_generations: shift[[44, 6],[106, 6]]_time_cost 38.12s</p>
+      <img src="./data/turkmen.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 33. turkmen: shift[[56, 20],[105, 21]]_time_cost 34.34s</p>
+      <img src="./data/village.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 34. village: shift[[63, 3],[136, 20]]_time_cost 38.50s</p>
+      <img src="./data/train.tifsquare_limit1_CROPTrue_CannyTrue_PyramidTrue_searchTrue_methodNCC.jpg" style="width:  40%;">
+      <p span="caption">Figure 35. train: shift[[41, 0],[78, 23]]_time_cost 46.49s</p>
+
+      <!-- <div class="w3-row w3-padding-32"> -->
+      <!-- <div class="w3-third">
+            <p>Name</p>
+            <img
+              src="/w3images/bandmember.jpg"
+              class="w3-round w3-margin-bottom"
+              alt="Random Name"
+              style="width: 60%"
+            />
+          </div> -->
+      <!-- <div class="w3-third">
+            <p>Name</p>
+            <img
+              src="/w3images/bandmember.jpg"
+              class="w3-round w3-margin-bottom"
+              alt="Random Name"
+              style="width: 60%"
+            />
+          </div>
+          <div class="w3-third">
+            <p>Name</p>
+            <img
+              src="/w3images/bandmember.jpg"
+              class="w3-round"
+              alt="Random Name"
+              style="width: 60%"
+            />
+          </div> -->
+      <!-- </div> -->
+    </div>
+
+    <!-- The Tour Section -->
+    <div class="w3-black" id="tour">
+      <div
+        class="w3-container w3-content w3-padding-64"
+        style="max-width: 800px"
+      >
+        <h2 class="w3-wide w3-center">Project List</h2>
+        <p class="w3-opacity w3-center">
+          <!-- <i>Remember to book your tickets!</i> -->
+        </p>
+        <br />
+
+        <ul class="w3-ul w3-border w3-white w3-text-grey">
+          <li class="w3-padding" id="proj_0">
+            <a href="../proj0/index.html"> Project 0  </a>
+            <img src="../proj0/data/laguna_beach.jpeg" style="width: 40%;">
+
+            <span class="w3-tag w3-green w3-margin-left">Finished</span>
+          </li>
+          <li  class="w3-padding" id="proj_1">
+            <a href="./index.html"> Project 1  </a>
+            <img src="./data/HARVESTORanime.gif" style="width: 40%;">
+            <span class="w3-tag w3-green w3-margin-left">Finished</span>
+          </li>
+          <!-- <li class="w3-padding">
+              October <span class="w3-tag w3-red w3-margin-left">Sold out</span>
+            </li>
+            <li class="w3-padding">
+              November <span class="w3-badge w3-right w3-margin-right">3</span>
+            </li> -->
+        </ul>
+
+        <div class="w3-row-padding w3-padding-32" style="margin: 0 -16px">
+          <!-- <div class="w3-third w3-margin-bottom">
+              <img
+                src="/w3images/newyork.jpg"
+                alt="New York"
+                style="width: 100%"
+                class="w3-hover-opacity"
+              />
+              <div class="w3-container w3-white">
+                <p><b>New York</b></p>
+                <p class="w3-opacity">Fri 27 Nov 2016</p>
+                <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+                <button
+                  class="w3-button w3-black w3-margin-bottom"
+                  onclick="document.getElementById('ticketModal').style.display='block'"
+                >
+                  Buy Tickets
+                </button>
+              </div>
+            </div> -->
+          <!-- <div class="w3-third w3-margin-bottom">
+              <img
+                src="/w3images/paris.jpg"
+                alt="Paris"
+                style="width: 100%"
+                class="w3-hover-opacity"
+              />
+              <div class="w3-container w3-white">
+                <p><b>Paris</b></p>
+                <p class="w3-opacity">Sat 28 Nov 2016</p>
+                <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+                <button
+                  class="w3-button w3-black w3-margin-bottom"
+                  onclick="document.getElementById('ticketModal').style.display='block'"
+                >
+                  Buy Tickets
+                </button>
+              </div>
+            </div> -->
+          <!-- <div class="w3-third w3-margin-bottom">
+              <img
+                src="/w3images/sanfran.jpg"
+                alt="San Francisco"
+                style="width: 100%"
+                class="w3-hover-opacity"
+              />
+              <div class="w3-container w3-white">
+                <p><b>San Francisco</b></p>
+                <p class="w3-opacity">Sun 29 Nov 2016</p>
+                <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+                <button
+                  class="w3-button w3-black w3-margin-bottom"
+                  onclick="document.getElementById('ticketModal').style.display='block'"
+                >
+                  Buy Tickets
+                </button>
+              </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div id="ticketModal" class="w3-modal">
+      <!-- <div class="w3-modal-content w3-animate-top w3-card-4">
+          <header class="w3-container w3-teal w3-center w3-padding-32">
+            <span
+              onclick="document.getElementById('ticketModal').style.display='none'"
+              class="w3-button w3-teal w3-xlarge w3-display-topright"
+              >×</span
+            >
+            <h2 class="w3-wide">
+              <i class="fa fa-suitcase w3-margin-right"></i>Tickets
+            </h2>
+          </header>
+          <div class="w3-container">
+            <p>
+              <label
+                ><i class="fa fa-shopping-cart"></i> Tickets, $15 per
+                person</label
+              >
+            </p>
+            <input
+              class="w3-input w3-border"
+              type="text"
+              placeholder="How many?"
+            />
+            <p>
+              <label><i class="fa fa-user"></i> Send To</label>
+            </p>
+            <input
+              class="w3-input w3-border"
+              type="text"
+              placeholder="Enter email"
+            />
+            <button
+              class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right"
+            >
+              PAY <i class="fa fa-check"></i>
+            </button>
+            <button
+              class="w3-button w3-red w3-section"
+              onclick="document.getElementById('ticketModal').style.display='none'"
+            >
+              Close <i class="fa fa-remove"></i>
+            </button>
+            <p class="w3-right">
+              Need <a href="#" class="w3-text-blue">help?</a>
+            </p>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- The Contact Section -->
+      <div
+        class="w3-container w3-content w3-padding-64"
+        style="max-width: 800px"
+        id="contact"
+      >
+        <h2 class="w3-wide w3-center">CONTACT</h2>
+        <p class="w3-opacity w3-center"><i>We can be good friends.</i></p>
+        <div class="w3-row w3-padding-32">
+          <div class="w3-col m6 w3-large w3-margin-bottom">
+            <i class="fa fa-map-marker" style="width: 30px"></i> Pittsburgh, PA,
+            US<br />
+            <!-- <i class="fa fa-phone" style="width: 30px"></i> Phone: +00 151515<br /> -->
+            <i class="fa fa-envelope" style="width: 30px"> </i> Email:
+            linjiw@andrew.cmu.edu
+            <br />
+          </div>
+          <!--<div class="w3-col m6">
+            <form action="/action_page.php" target="_blank">
+              <div class="w3-row-padding" style="margin: 0 -16px 8px -16px">
+                <div class="w3-half">
+                  <input
+                    class="w3-input w3-border"
+                    type="text"
+                    placeholder="Name"
+                    required
+                    name="Name"
+                  />
+                </div>
+                <div class="w3-half">
+                  <input
+                    class="w3-input w3-border"
+                    type="text"
+                    placeholder="Email"
+                    required
+                    name="Email"
+                  />
+                </div>
+              </div>
+              <input
+                class="w3-input w3-border"
+                type="text"
+                placeholder="Message"
+                required
+                name="Message"
+              />
+              <button
+                class="w3-button w3-black w3-section w3-right"
+                type="submit"
+              >
+                SEND
+              </button>
+            </form>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- End Page Content -->
+    </div>
+
+    <!-- Image of location/map -->
+    <!-- <img
+      src="/w3images/map.jpg"
+      class="w3-image w3-greyscale-min"
+      style="width: 100%"
+    /> -->
+
+    <!-- Footer -->
+    <footer
+      class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge"
+    >
+      <!-- <i class="fa fa-facebook-official w3-hover-opacity"></i> -->
+      <a
+        class="fa fa-instagram w3-hover-opacity"
+        href="https://www.instagram.com/joewwwang/"
+      ></a>
+      <!-- <i class="fa fa-snapchat w3-hover-opacity"></i> -->
+      <!-- <i class="fa fa-pinterest-p w3-hover-opacity"></i> -->
+      <!-- <i class="fa fa-twitter w3-hover-opacity"></i> -->
+      <a
+        class="fa fa-linkedin w3-hover-opacity"
+        href="https://www.linkedin.com/in/linjiw/"
+      ></a>
+      <p class="w3-medium">
+        Powered by
+        <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
+          >w3.css</a
+        >
+      </p>
+    </footer>
+
+    <script>
+      // Automatic Slideshow - change image every 4 seconds
+      var myIndex = 0;
+      carousel();
+
+      function carousel() {
+        var i;
+        var x = document.getElementsByClassName('mySlides');
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = 'none';
+        }
+        myIndex++;
+        if (myIndex > x.length) {
+          myIndex = 1;
+        }
+        x[myIndex - 1].style.display = 'block';
+        setTimeout(carousel, 4000);
+      }
+
+      // Used to toggle the menu on small screens when clicking on the menu button
+      function myFunction() {
+        var x = document.getElementById('navDemo');
+        if (x.className.indexOf('w3-show') == -1) {
+          x.className += ' w3-show';
+        } else {
+          x.className = x.className.replace(' w3-show', '');
+        }
+      }
+
+      // When the user clicks anywhere outside of the modal, close it
+      var modal = document.getElementById('ticketModal');
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      };
+    </script>
+  </body>
+</html>

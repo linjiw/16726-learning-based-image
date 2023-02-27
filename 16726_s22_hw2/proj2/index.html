@@ -137,14 +137,17 @@
       <h3> Overview</h3>
       <p class="w3-justify"> Welcome to our website about Gradient Domain Fusion, a powerful technique that allows for seamless merging of multiple images into a single high-quality output. Our project aims to explore this technique and provide a detailed guide on how to implement it effectively. <br>
         Whether you are a professional photographer or a hobbyist looking to take your images to the next level, our website is the perfect resource to learn about and master Gradient Domain Fusion. So, let's get started and unlock the full potential of this exciting technique!
-        <img src="./data/cathedral.jpg" style="width: 40%" />
+        <img src="./data/source_07_newsource_target_07Mixed Blend.jpg" style="width: 40%" />
         <p span = "caption">Figure 1. Digitized Glass Plate: Cathedral</p>
         <!-- <h3> Pre-processing</h3> -->
         <!-- <p class="w3-justify">From the original image</p> -->
-        <h3> Matching Metric</h3>
+        <h3> Poisson blending</h3>
         <p class="w3-justify"> 
-          Image matching means to manipulate image to ensure the best results for your similarity metrics. Thus, it is important to choose an efficient and accurate image matching metrics. For this assignment, I explored Sum of Squared Differences (SSD) and Normalized Cross Correlation (NCC) functions. The objective is to maximize or minimize one of these functions by searching and manipulating the images.
-        </p>
+          Poisson blending is a technique used for seamlessly combining two images, commonly used in image processing, computer graphics, and computer vision applications. The core idea behind Poisson blending is to solve a Poisson equation to compute a seamless blending between the two images.
+
+          At its core, Poisson blending involves identifying the regions of the two images that need to be blended, defining a mask that identifies the boundary region between the two images, computing a Laplacian of the target image, and solving a Poisson equation using the boundary conditions defined by the mask. The resulting image will have seamless blending at the boundary region between the two images.
+          
+          The mathematical meaning of Poisson blending is based on the Poisson equation, which is a second-order partial differential equation used to describe a wide range of physical phenomena. In the context of image processing, the Poisson equation describes the diffusion of information across an image. In Poisson blending, the Poisson equation is used to propagate information from the source image to the target image in the boundary region, resulting in a seamless blending.        </p>
         <p class="w3-justify"><b>Sum of Squared Differences</b> SSD  is calculated     based on the following equation:     </p>
         <!-- <p> 
           <la-tex display="block">SSD = \sum_{x,y}({H_{x,y} - I_{x,y}})</la-tex></p> -->
