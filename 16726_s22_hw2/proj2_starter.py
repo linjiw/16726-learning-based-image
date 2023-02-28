@@ -173,8 +173,8 @@ def poisson_blend(fg, mask, bg):
 
                         else:
                             A[e, im2var[y, x]] = 1
-                            # b[e] = bg[top + ii[0], left + ii[1], channel] + fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]
-                            b[e] = bg[top + ii[0], left + ii[1], channel]
+                            b[e] = bg[top + ii[0], left + ii[1], channel] + fg[top + y, left + x, channel] - fg[top + ii[0], left + ii[1], channel]
+                            # b[e] = bg[top + ii[0], left + ii[1], channel]
                             
                         e +=1
 
