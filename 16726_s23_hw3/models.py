@@ -80,11 +80,11 @@ class DCGenerator(nn.Module):
         ##   FILL THIS IN: CREATE ARCHITECTURE   ##
         ###########################################
 
-        self.up_conv1 = 
-        self.up_conv2 = 
-        self.up_conv3 = 
-        self.up_conv4 = 
-        self.up_conv5 = 
+        self.up_conv1 = conv(100, 256, 2, 1, 2, 'instance', False,'relu' )
+        self.up_conv2 = up_conv(256, 128, 3, stride=1, padding=1, scale_factor=2, norm='instance', activ='relu')
+        self.up_conv3 = up_conv(128, 64, 3, stride=1, padding=1, scale_factor=2, norm='instance', activ='relu')
+        self.up_conv4 = up_conv(64, 32, 3, stride=1, padding=1, scale_factor=2, norm='instance', activ='relu')
+        self.up_conv5 = up_conv(32, 3, 3, stride=1, padding=1, scale_factor=2, norm= None, activ='tanh')
 
     def forward(self, z):
         """
@@ -101,7 +101,12 @@ class DCGenerator(nn.Module):
         ###########################################
         ##   FILL THIS IN: FORWARD PASS   ##
         ###########################################
-
+        z = self.up_conv1(z)
+        z = self.up_conv2(z)
+        z = self.up_conv3(z)
+        z = self.up_conv4(z)
+        z = self.up_conv5(z)
+        return z
         pass
 
 
@@ -130,16 +135,16 @@ class CycleGenerator(nn.Module):
         ##   FILL THIS IN: CREATE ARCHITECTURE   ##
         ###########################################
 
-        # 1. Define the encoder part of the generator
-        self.conv1 = 
-        self.conv2 = 
+        # # 1. Define the encoder part of the generator
+        # self.conv1 = 
+        # self.conv2 = 
 
-        # 2. Define the transformation part of the generator
-        self.resnet_block = 
+        # # 2. Define the transformation part of the generator
+        # self.resnet_block = 
 
-        # 3. Define the decoder part of the generator
-        self.up_conv1 = 
-        self.up_conv2 = 
+        # # 3. Define the decoder part of the generator
+        # self.up_conv1 = 
+        # self.up_conv2 = 
 
     def forward(self, x):
         """
@@ -166,10 +171,10 @@ class DCDiscriminator(nn.Module):
     def __init__(self, conv_dim=64, norm='instance'):
         super().__init__()
         self.conv1 = conv(3, 32, 4, 2, 1, norm, False, 'relu')
-        self.conv2 = 
-        self.conv3 = 
-        self.conv4 = 
-        self.conv5 = 
+        self.conv2 = conv(32, 64, 4, 2, 1, norm, False, 'relu')
+        self.conv3 = conv(64, 128, 4, 2, 1, norm, False, 'relu')
+        self.conv4 = conv(128, 256, 4, 2, 1, norm, False, 'relu')
+        self.conv5 = conv(256, 1, 4, 2, 0, None, False)
 
     def forward(self, x):
         """Forward pass, x is (B, C, H, W)."""

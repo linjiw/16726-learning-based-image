@@ -171,10 +171,10 @@ def training_loop(train_dataloader, opts):
             D_real_loss = torch.mean((D(real_images) - 1) ** 2)
 
             # 2. Sample noise
-            noise = 
+            noise = sample_noise(opts.batch_size, opts.noise_size)
 
             # 3. Generate fake images from the noise
-            fake_images = 
+            fake_images = G(noise)
 
             # 4. Compute the discriminator loss on the fake images
             D_fake_loss = torch.mean((D(fake_images.detach())) ** 2)
@@ -187,13 +187,16 @@ def training_loop(train_dataloader, opts):
 
             # TRAIN THE GENERATOR
             # 1. Sample noise
-            noise = 
+            # noise = sample_noise(opts.batch_size, opts.noise_size)
+
+            noise = fixed_noise
+
 
             # 2. Generate fake images from the noise
-            fake_images = 
+            fake_images = G(noise)
 
             # 3. Compute the generator loss
-            G_loss = 
+            G_loss = torch.mean((D(fake_images.detach())-1) ** 2)
 
             # update the generator G
             g_optimizer.zero_grad()

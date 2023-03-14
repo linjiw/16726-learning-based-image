@@ -42,11 +42,22 @@ def get_data_loader(data_path, opts):
         train_transform = basic_transform
     elif opts.data_preprocess == 'deluxe':
         # todo: add your code here: below are some ideas for your reference
-        # load_size = int(1.1 * opts.image_size)
-        # osize = [load_size, load_size]
+        # 
         # transforms.Resize(osize, Image.BICUBIC)
-        # transforms.RandomCrop(opts.image_size)
-        # transforms.RandomHorizontalFlip()
+        # 
+        # 
+        load_size = int(1.1 * opts.image_size)
+        osize = [load_size, load_size]
+        deluxe_transform = transforms.Compose([
+        transforms.Resize(opts.image_size, Image.BICUBIC),
+        transforms.RandomCrop(opts.image_size),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ])
+        train_transform = deluxe_transform
+
+
         pass
 
     dataset = CustomDataSet(
