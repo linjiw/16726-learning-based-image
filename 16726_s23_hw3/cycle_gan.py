@@ -34,8 +34,12 @@ import utils
 from data_loader import get_data_loader
 from models import CycleGenerator, DCDiscriminator, PatchDiscriminator
 from diff_augment import DiffAugment
+# from diff_augment import DiffAugment
+import wandb
+from datetime import datetime
 policy = 'color,translation,cutout'
 
+wandb.login()
 
 SEED = 11
 
@@ -143,6 +147,9 @@ def save_samples(iteration, fixed_Y, fixed_X, G_YtoX, G_XtoY, opts):
     imageio.imwrite(path, merged)
     print('Saved {}'.format(path))
 
+    images = wandb.Image(merged, caption=f'sample-{iteration}-X-Y.png')         
+    wandb.log({'sample-X-Y': images})
+
     merged = merge_images(Y, fake_X, opts)
     path = os.path.join(
         opts.sample_dir, 'sample-{:06d}-Y-X.png'.format(iteration)
@@ -150,6 +157,8 @@ def save_samples(iteration, fixed_Y, fixed_X, G_YtoX, G_XtoY, opts):
     merged = np.uint8(255 * (merged + 1) / 2)
     imageio.imwrite(path, merged)
     print('Saved {}'.format(path))
+    images = wandb.Image(merged, caption=f'sample-{iteration}-Y-X.png')       
+    wandb.log({'sample-Y-X': images})
 
 
 def training_loop(dataloader_X, dataloader_Y, opts):
@@ -157,6 +166,12 @@ def training_loop(dataloader_X, dataloader_Y, opts):
         * Saves checkpoint every opts.checkpoint_every iterations
         * Saves generated samples every opts.sample_every iterations
     """
+    now = datetime.now()
+
+    datetime_string = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    wandb.init(project="hw3-CycleGAN", name=f'{opts.sample_dir}_{datetime_string}')
+
     # Create generators and discriminators
     G_XtoY, G_YtoX, D_X, D_Y = create_model(opts)
 
@@ -190,24 +205,40 @@ def training_loop(dataloader_X, dataloader_Y, opts):
 
         images_Y = next(iter_Y)
         images_Y = utils.to_var(images_Y)
-
+        # D(DiffAugment(real_images, policy='color,translation,cutout', channels_first=False ))
         # TRAIN THE DISCRIMINATORS
         # 1. Compute the discriminator losses on real images
-        D_X_loss = 
-        D_Y_loss = 
+        if not opts.use_diffaug:
+            D_X_loss = torch.mean((D_X(images_X) - 1) ** 2)
+            D_Y_loss = torch.mean((D_Y(images_Y) - 1) ** 2)
+        else:
+            D_X_loss = torch.mean((D_X(DiffAugment(images_X, policy='color,translation,cutout', channels_first=False )) - 1) ** 2)
+            D_Y_loss = torch.mean((D_Y(DiffAugment(images_Y, policy='color,translation,cutout', channels_first=False )) - 1) ** 2)
+
 
         d_real_loss = D_X_loss + D_Y_loss
 
         # 2. Generate domain-X-like images based on real images in domain Y
-        fake_X = 
+        fake_X = G_YtoX(images_Y).detach()
 
         # 3. Compute the loss for D_X
-        D_X_loss = 
+        if not opts.use_diffaug:
+
+            D_X_loss = torch.mean((D_X(fake_X) ) ** 2)
+        else:
+            D_X_loss = torch.mean((D_X(DiffAugment(fake_X, policy='color,translation,cutout', channels_first=False )) ) ** 2)
+
 
         # 4. Generate domain-Y-like images based on real images in domain X
+        fake_Y = G_XtoY(images_X).detach()
 
         # 5. Compute the loss for D_Y
-        D_Y_loss = 
+        if not opts.use_diffaug:
+
+            D_Y_loss = torch.mean((D_Y(fake_Y) ) ** 2)
+        else:
+            D_Y_loss = torch.mean((D_Y(DiffAugment(fake_Y, policy='color,translation,cutout', channels_first=False )) ) ** 2)
+
 
         d_fake_loss = D_X_loss + D_Y_loss
 
@@ -225,30 +256,42 @@ def training_loop(dataloader_X, dataloader_Y, opts):
 
         # TRAIN THE GENERATORS
         # 1. Generate domain-X-like images based on real images in domain Y
-        fake_X = 
+        fake_X = G_YtoX(images_Y)
 
         # 2. Compute the generator loss based on domain X
-        g_loss = 
+        if not opts.use_diffaug:
+
+            g_loss = torch.mean((D_X(fake_X) - 1 ) ** 2)
+        else:
+            g_loss = torch.mean((D_X(DiffAugment(fake_X, policy='color,translation,cutout', channels_first=False )) - 1 ) ** 2)
+
+
         logger.add_scalar('G/XY/fake', g_loss, iteration)
 
         if opts.use_cycle_consistency_loss:
             # 3. Compute the cycle consistency loss (the reconstruction loss)
-            cycle_consistency_loss = 
+            cycle_consistency_loss = torch.mean((images_X - G_YtoX(G_XtoY(images_X)))**2)
+
 
             g_loss += opts.lambda_cycle * cycle_consistency_loss
             logger.add_scalar('G/XY/cycle', opts.lambda_cycle * cycle_consistency_loss, iteration)
 
         # X--Y-->X CYCLE
         # 1. Generate domain-Y-like images based on real images in domain X
-        fake_Y = 
+        fake_Y = G_XtoY(images_X)
 
         # 2. Compute the generator loss based on domain Y
-        g_loss += 
+        if not opts.use_diffaug:
+
+            g_loss += torch.mean((D_Y(fake_Y) - 1 ) ** 2)
+        else:
+            g_loss += torch.mean((D_Y(DiffAugment(fake_Y, policy='color,translation,cutout', channels_first=False )) - 1 ) ** 2)
+
         logger.add_scalar('G/YX/fake', g_loss, iteration)
 
         if opts.use_cycle_consistency_loss:
             # 3. Compute the cycle consistency loss (the reconstruction loss)
-            cycle_consistency_loss = 
+            cycle_consistency_loss = torch.mean((images_Y - G_XtoY(G_YtoX(images_Y)))**2)
 
             g_loss += opts.lambda_cycle * cycle_consistency_loss
             logger.add_scalar('G/YX/cycle', cycle_consistency_loss, iteration)
@@ -268,7 +311,10 @@ def training_loop(dataloader_X, dataloader_Y, opts):
                     D_Y_loss.item(), D_X_loss.item(),
                     d_fake_loss.item(), g_loss.item()
                 )
+
             )
+            wandb.log({'D/real_loss': d_real_loss.item(), 'D/Y_loss': D_Y_loss.item(),'D/X_loss': D_X_loss.item(),'D/fake_loss': d_fake_loss.item(),'G/loss': g_loss.item()})
+
 
         # Save the generated samples
         if iteration % opts.sample_every == 0:
@@ -291,6 +337,8 @@ def main(opts):
 
     # Start training
     training_loop(dataloader_X, dataloader_Y, opts)
+    wandb.finish()
+
 
 
 def print_opts(opts):
