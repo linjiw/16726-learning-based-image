@@ -23,8 +23,15 @@ import utils
 from data_loader import get_data_loader
 from models import DCGenerator, DCDiscriminator
 from diff_augment import DiffAugment
+import wandb
+from datetime import datetime
 
 
+
+# print(datetime_string)
+
+wandb.login()
+# f28f905cf0d1b2c32ca1a1e437fb871c2b0e14c2
 policy = 'color,translation,cutout'
 
 SEED = 11
@@ -107,6 +114,11 @@ def save_samples(G, fixed_noise, iteration, opts):
     # merged = merge_images(X, fake_Y, opts)
     path = os.path.join(opts.sample_dir, 'sample-{:06d}.png'.format(iteration))
     imageio.imwrite(path, grid)
+    
+    images = wandb.Image(grid, caption=f"Sample Image {iteration}")
+          
+    wandb.log({"Sample": images})
+    
     print('Saved {}'.format(path))
 
 
@@ -119,6 +131,10 @@ def save_images(images, iteration, opts, name):
     )
     grid = np.uint8(255 * (grid + 1) / 2)
     imageio.imwrite(path, grid)
+    
+    images = wandb.Image(grid, caption=f"Real Image {iteration}")
+          
+    wandb.log({"Real": images})
     print('Saved {}'.format(path))
 
 
@@ -144,6 +160,12 @@ def training_loop(train_dataloader, opts):
         * Saves checkpoints every opts.checkpoint_every iterations
         * Saves generated samples every opts.sample_every iterations
     """
+    # Get the current date and time as a datetime object
+    now = datetime.now()
+
+    # Format the datetime object as a string
+    datetime_string = now.strftime("%Y-%m-%d %H:%M:%S")
+    wandb.init(project="hw3-DCGAN", name=f'{opts.sample_dir}_{datetime_string}')
 
     # Create generators and discriminators
     G, D = create_model(opts)
@@ -165,10 +187,15 @@ def training_loop(train_dataloader, opts):
 
             real_images = batch
             real_images = utils.to_var(real_images)
+            # real_images = DiffAugment(real_images, policy='color,translation,cutout', channels_first=False )
 
             # TRAIN THE DISCRIMINATOR
             # 1. Compute the discriminator loss on real images
-            D_real_loss = torch.mean((D(real_images) - 1) ** 2)
+            if opts.use_diffaug:
+                D_real_loss = torch.mean((D(DiffAugment(real_images, policy='color,translation,cutout', channels_first=False )) - 1) ** 2)
+            else:
+                D_real_loss = torch.mean((D(real_images) - 1) ** 2)
+
 
             # 2. Sample noise
             noise = sample_noise(opts.batch_size, opts.noise_size)
@@ -177,7 +204,11 @@ def training_loop(train_dataloader, opts):
             fake_images = G(noise)
 
             # 4. Compute the discriminator loss on the fake images
-            D_fake_loss = torch.mean((D(fake_images.detach())) ** 2)
+            if opts.use_diffaug:
+
+                D_fake_loss = torch.mean((D(DiffAugment(fake_images.detach(), policy='color,translation,cutout', channels_first=False ))) ** 2)
+            else:
+                D_real_loss = torch.mean((D(fake_images.detach())) ** 2)
             D_total_loss = (D_real_loss + D_fake_loss) / 2
 
             # update the discriminator D
@@ -187,16 +218,16 @@ def training_loop(train_dataloader, opts):
 
             # TRAIN THE GENERATOR
             # 1. Sample noise
-            # noise = sample_noise(opts.batch_size, opts.noise_size)
-
-            noise = fixed_noise
-
+            noise = sample_noise(opts.batch_size, opts.noise_size)
 
             # 2. Generate fake images from the noise
             fake_images = G(noise)
 
             # 3. Compute the generator loss
-            G_loss = torch.mean((D(fake_images.detach())-1) ** 2)
+            if opts.use_diffaug:
+                G_loss = torch.mean((D(DiffAugment(fake_images, policy='color,translation,cutout', channels_first=False ))-1) ** 2)
+            else:
+                G_loss = torch.mean((D(fake_images)-1) ** 2)
 
             # update the generator G
             g_optimizer.zero_grad()
@@ -216,6 +247,7 @@ def training_loop(train_dataloader, opts):
                 logger.add_scalar('D/real', D_real_loss, iteration)
                 logger.add_scalar('D/total', D_total_loss, iteration)
                 logger.add_scalar('G/total', G_loss, iteration)
+                wandb.log({'D/fake': D_fake_loss.item(), 'D/real': D_real_loss.item(),'D/total': D_total_loss.item(),'G/total': G_loss.item()})
 
             # Save the generated samples
             if iteration % opts.sample_every == 0:
@@ -240,6 +272,8 @@ def main(opts):
     utils.create_dir(opts.sample_dir)
 
     training_loop(dataloader, opts)
+    wandb.finish()
+
 
 
 def create_parser():
@@ -277,6 +311,7 @@ def create_parser():
 
 
 if __name__ == '__main__':
+    
     parser = create_parser()
     opts = parser.parse_args()
 
